@@ -1,0 +1,41 @@
+package moonbitlang/minimbt/knf_eval
+
+alias @moonbitlang/core/immut/hashmap as @hashmap
+alias @moonbitlang/minimbt as @minimbt
+alias @moonbitlang/minimbt/knf as @knf
+
+// Values
+
+// Types and methods
+type KnfInterpreter
+impl KnfInterpreter {
+  add_extern_fn(Self, String, (Array[Value]) -> Value) -> Unit
+  eval(Self, @hashmap.T[@minimbt.Name, Value], @knf.Knf) -> Value!Failure
+  eval_full(Self, @knf.Knf) -> Value!Failure
+  new() -> Self
+}
+
+pub enum Value {
+  Unit
+  Int(Int)
+  Double(Double)
+  Tuple(Array[Value])
+  Array(Array[Value])
+  ExternFn(String)
+  Closure(@knf.FuncDef, Ref[@hashmap.T[@minimbt.Name, Value]])
+}
+impl Value {
+  op_equal(Self, Self) -> Bool
+  to_string(Self) -> String
+}
+
+// Type aliases
+pub typealias InterpreterLocalVars = @hashmap.T[@minimbt.Name, Value]
+
+pub typealias Name = @minimbt.Name
+
+// Traits
+
+// Extension Methods
+impl Show for Value
+

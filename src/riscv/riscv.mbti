@@ -1,0 +1,233 @@
+package moonbitlang/minimbt/riscv
+
+// Values
+fn asm_stringify(AssemblyFunction) -> String
+
+fn emit(Unit) -> Array[AssemblyFunction]
+
+let freg_allocatable_list : Array[FReg]
+
+let freg_arg_list : Array[FReg]
+
+let freg_callee_saved_list : Array[FReg]
+
+let freg_caller_saved_list : Array[FReg]
+
+let freg_ret : FReg
+
+let freg_saved_list : Array[FReg]
+
+let freg_swap : FReg
+
+let freg_temp_list : Array[FReg]
+
+let reg_allocatable_list : Array[Reg]
+
+let reg_arg_list : Array[Reg]
+
+let reg_callee_saved_list : Array[Reg]
+
+let reg_caller_saved_list : Array[Reg]
+
+let reg_closure : Reg
+
+let reg_fp : Reg
+
+let reg_ret : Reg
+
+let reg_saved_list : Array[Reg]
+
+let reg_swap : Reg
+
+let reg_temp_list : Array[Reg]
+
+// Types and methods
+pub struct AssemblyFunction {
+  pub name : String
+  pub export : Bool
+  pub body : Array[RvAsm]
+}
+impl AssemblyFunction {
+  output(Self, Logger) -> Unit
+}
+
+pub enum FReg {
+  Ft0
+  Ft1
+  Ft2
+  Ft3
+  Ft4
+  Ft5
+  Ft6
+  Ft7
+  Fs0
+  Fs1
+  Fa0
+  Fa1
+  Fa2
+  Fa3
+  Fa4
+  Fa5
+  Fa6
+  Fa7
+  Fs2
+  Fs3
+  Fs4
+  Fs5
+  Fs6
+  Fs7
+  Fs8
+  Fs9
+  Fs10
+  Fs11
+  Ft8
+  Ft9
+  Ft10
+  Ft11
+}
+impl FReg {
+  compare(Self, Self) -> Int
+  hash_combine(Self, Hasher) -> Unit
+  op_equal(Self, Self) -> Bool
+  to_string(Self) -> String
+}
+
+type Label
+impl Label {
+  hash_combine(Self, Hasher) -> Unit
+  op_equal(Self, Self) -> Bool
+  to_string(Self) -> String
+}
+
+type MemAccess
+impl MemAccess {
+  to_string[TBase : Show, TOff : Show](Self[TBase, TOff]) -> String
+}
+
+pub enum Reg {
+  Zero
+  Ra
+  Sp
+  Gp
+  Tp
+  T0
+  T1
+  T2
+  Fp
+  S1
+  A0
+  A1
+  A2
+  A3
+  A4
+  A5
+  A6
+  A7
+  S2
+  S3
+  S4
+  S5
+  S6
+  S7
+  S8
+  S9
+  S10
+  S11
+  T3
+  T4
+  T5
+  T6
+}
+impl Reg {
+  compare(Self, Self) -> Int
+  hash_combine(Self, Hasher) -> Unit
+  op_equal(Self, Self) -> Bool
+  to_string(Self) -> String
+}
+
+pub enum RvAsm {
+  Add(Reg, Reg, Reg)
+  Sub(Reg, Reg, Reg)
+  Xor(Reg, Reg, Reg)
+  Or(Reg, Reg, Reg)
+  And(Reg, Reg, Reg)
+  Sll(Reg, Reg, Reg)
+  Srl(Reg, Reg, Reg)
+  Sra(Reg, Reg, Reg)
+  Slt(Reg, Reg, Reg)
+  Sltu(Reg, Reg, Reg)
+  Addi(Reg, Reg, Int)
+  Xori(Reg, Reg, Int)
+  Ori(Reg, Reg, Int)
+  Andi(Reg, Reg, Int)
+  Slli(Reg, Reg, Int)
+  Srli(Reg, Reg, Int)
+  Srai(Reg, Reg, Int)
+  Slti(Reg, Reg, Int)
+  Sltiu(Reg, Reg, Int)
+  Lb(Reg, MemAccess[Reg, Int])
+  Lh(Reg, MemAccess[Reg, Int])
+  Lw(Reg, MemAccess[Reg, Int])
+  Ld(Reg, MemAccess[Reg, Int])
+  Lbu(Reg, MemAccess[Reg, Int])
+  Lhu(Reg, MemAccess[Reg, Int])
+  Lwu(Reg, MemAccess[Reg, Int])
+  Sb(Reg, MemAccess[Reg, Int])
+  Sh(Reg, MemAccess[Reg, Int])
+  Sw(Reg, MemAccess[Reg, Int])
+  Sd(Reg, MemAccess[Reg, Int])
+  Beq(Reg, Reg, Label)
+  Bne(Reg, Reg, Label)
+  Blt(Reg, Reg, Label)
+  Bge(Reg, Reg, Label)
+  Ble(Reg, Reg, Label)
+  Bgt(Reg, Reg, Label)
+  Bltu(Reg, Reg, Label)
+  Bgeu(Reg, Reg, Label)
+  Ecall
+  Mul(Reg, Reg, Reg)
+  Mulw(Reg, Reg, Reg)
+  Mulh(Reg, Reg, Reg)
+  Mulhsu(Reg, Reg, Reg)
+  Mulhu(Reg, Reg, Reg)
+  Div(Reg, Reg, Reg)
+  Divw(Reg, Reg, Reg)
+  Divu(Reg, Reg, Reg)
+  Rem(Reg, Reg, Reg)
+  Remw(Reg, Reg, Reg)
+  Remu(Reg, Reg, Reg)
+  FaddD(FReg, FReg, FReg)
+  FsubD(FReg, FReg, FReg)
+  FmulD(FReg, FReg, FReg)
+  FdivD(FReg, FReg, FReg)
+  Fld(FReg, MemAccess[Reg, Int])
+  Fsd(FReg, MemAccess[Reg, Int])
+  FbeqD(FReg, FReg, Label)
+  FbleD(FReg, FReg, Label)
+  FmvDX(FReg, Reg)
+  Nop
+  La(Reg, Label)
+  Li(Reg, String)
+  Neg(Reg, Reg)
+  FnegD(FReg, FReg)
+  Mv(Reg, Reg)
+  FmvD(FReg, FReg)
+  J(Label)
+  Jalr(Reg)
+  Jr(Reg)
+  Call(Label)
+  Tail(Label)
+  Ret
+  Label(String)
+  Comment(String)
+}
+
+// Type aliases
+
+// Traits
+
+// Extension Methods
+impl Show for Label
+
+impl Show for MemAccess
+

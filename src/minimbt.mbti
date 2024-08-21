@@ -1,0 +1,115 @@
+package moonbitlang/minimbt
+
+// Values
+
+// Types and methods
+pub struct Fundef {
+  pub name : Tuple[String, Type]
+  pub args : Array[Tuple[String, Type]]
+  pub body : Syntax
+}
+impl Fundef {
+  from_json(Json) -> Self!
+  to_json(Self) -> Json
+  to_string(Self) -> String
+}
+
+pub enum Kind {
+  Int
+  Double
+}
+impl Kind {
+  op_equal(Self, Self) -> Bool
+  to_string(Self) -> String
+}
+
+pub struct Name {
+  pub name : String?
+  pub slot : Int
+}
+impl Name {
+  compare(Self, Self) -> Int
+  hash_combine(Self, Hasher) -> Unit
+  name_and_slot(String, Int) -> Self
+  name_only(String) -> Self
+  op_equal(Self, Self) -> Bool
+  slot_only(Int) -> Self
+  to_string(Self) -> String
+}
+
+pub enum Op {
+  Add
+  Sub
+  Mul
+  Div
+}
+impl Op {
+  op_equal(Self, Self) -> Bool
+  to_string(Self) -> String
+}
+
+pub enum Syntax {
+  Unit
+  Bool(Bool)
+  Int(Int)
+  Double(Double)
+  Var(String)
+  Tuple(Array[Syntax])
+  Not(Syntax)
+  Array(Syntax, Syntax)
+  Neg(Syntax, Kind?)
+  App(Syntax, Array[Syntax])
+  Get(Syntax, Syntax)
+  If(Syntax, Syntax, Syntax)
+  Prim(Syntax, Syntax, Op, Kind?)
+  Eq(Syntax, Syntax)
+  LE(Syntax, Syntax)
+  Let(Tuple[String, Type], Syntax, Syntax)
+  LetRec(Fundef, Syntax)
+  LetTuple(Array[Tuple[String, Type]], Syntax, Syntax)
+  Put(Syntax, Syntax, Syntax)
+}
+impl Syntax {
+  from_json(Json) -> Self!
+  to_json(Self) -> Json
+  to_string(Self) -> String
+}
+
+pub enum Type {
+  Unit
+  Bool
+  Int
+  Double
+  Fun(Array[Type], Type)
+  Tuple(Array[Type])
+  Array(Type)
+  Var(Ref[Type?])
+  Ptr
+}
+impl Type {
+  from_json(Json) -> Self!
+  is_float_like(Self) -> Bool
+  is_ptr_like(Self) -> Bool
+  op_equal(Self, Self) -> Bool
+  size_of(Self, Int) -> Int
+  to_json(Self) -> Json
+  to_string(Self) -> String
+}
+
+// Type aliases
+
+// Traits
+
+// Extension Methods
+impl Show for Fundef
+
+impl Show for Kind
+
+impl Show for Name
+
+impl Show for Op
+
+impl Show for Syntax
+
+impl Show for Type
+

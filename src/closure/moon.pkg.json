@@ -1,0 +1,10 @@
+{
+  "import": [
+    {
+      "path": "moonbitlang/minimbt",
+      "alias": "types"
+    },
+    "moonbitlang/minimbt/knf",
+    "moonbitlang/minimbt/util"
+  ]
+}
