@@ -22,7 +22,7 @@ backgroundImage: url('../pics/background.png')
 
 # Logistics
 
-- Course website: https://bobzhang.github.io/courses/
+- Course website: https://moonbitlang.github.io/minimoonbit-public/
 - Discussion forum: https://taolun.moonbitlang.com/
 - Target audience:
   - People who are interested in language design and implementations
@@ -51,11 +51,11 @@ backgroundImage: url('../pics/background.png')
 
 $$
 \Huge
-\text{We are hiring}
+\text{MoonBit Programming Challenge}
 $$
 
-- Shenzhen
-- Hiring: Language Toolchain, Developer Tools, GC, Editor, IDE
+- Compiler optimization (programming language design)
+- Game Development
 <!-- 我们也常年招聘实习生  -->
 
 ---
@@ -86,12 +86,11 @@ $$
 \begin{array} {|c|c|c|c|}
  \text{Lec} & \text{Topic} & \text{Lec} & \text{Topic} \\
  \hline
- 0 & \text{Introduction} & 6  & \text{Stack machine and compilation}\\
- 1 & \text{ReScript crash course} & 7 & \text{WebAssembly}\\
- 2 & \lambda \text { Calculus} & 8 & \text{Garbage Collection and Memory Management}\\
- 3 & \text{Names, Binders, De Bruijn index} & 9 & \text{Type checking}\\
- 4 & \text{Closure Calculus} & 10 & \text{Type Inference and Unification}\\
- 5 & \text{Pattern Matching} & 11 \& 12 & \text{Formal Verification, Guest Lectures}\\
+ 0 & \text{Introduction to language design and implementation} & 5  & \text{Stack machine and compilation}\\
+ 1 & \text{MoonBit crash course} & 6 & \text{IR designs (ANF, CPS)}\\
+ 2 & \text{Parsing} & 7 & \text{Closure Calculus}\\
+ 3 & \text{Semantics analysis and type inferences} & 8 & \text{Register allocation \& Garbage collection}\\
+ 4 & \text{Bidrectional type checking} &  & \\
 \end{array}
 $$
 
