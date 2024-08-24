@@ -5,6 +5,7 @@
 - [MoonBit 线下 MeetUP](https://www.huodongxing.com/event/reg_submit?id=8769783665900)
 - [游戏赛道](https://mp.weixin.qq.com/s/lzg2wmqZeNeYzDWRMye43Q)
 - MiniMoonBit 赛道 (TBA)
+- [MoonBit 线上课程](https://mp.weixin.qq.com/s/5pK-eD_C5tAoCDvy-PmbMg)
 
 # 课程安排
 
