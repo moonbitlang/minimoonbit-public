@@ -5,9 +5,8 @@ paginate: true
 backgroundImage: url('../pics/background.png')
 ---
 
-# Introduction to compilers and interpreters
 
-## 基础软件理论与实践公开课
+# 基础软件理论与实践公开课 (MoonBit挑战赛辅助教材)
 
 ### 张宏波
 
@@ -26,13 +25,12 @@ backgroundImage: url('../pics/background.png')
 - Discussion forum: https://taolun.moonbitlang.com/
 - Target audience:
   - People who are interested in language design and implementations
-  - No PL theory pre-requisites
-- Example code language: [MoonBit](https://docs.moonbitlang.com/)
-  - Homebrew
-  - Compiles to WASM
+  - 基于ReScript理论与实践改编，重用了部分内容，新增了一部分高阶内容
+- Example code: [MoonBit](https://docs.moonbitlang.com/)
+  - Compiles to WASM/JS
   - Great runtime performance
-  - Extremely fast compiler
-  - Easy to install on major platforms including Windows
+  - Good IDE support and fit for compiler construction
+  - No installation required
 
 <!--
 关于这门课的社区 微信，CSDN论坛
@@ -54,21 +52,20 @@ $$
 \text{MoonBit Programming Challenge}
 $$
 
-- Compiler optimization (programming language design)
-- Game Development
+- Language design and implementation (mini-moonbit in MoonBit) 
+- Game Development (Wasm4)
 <!-- 我们也常年招聘实习生  -->
 
 ---
 
-# Introduction
-
-## Why study compiler&interpreters ?
+# Why study compiler&interpreters ?
 
 - It is fun
 - Understand your tools you use everyday
 - Understand the cost of abstraction
   - Hidden allocation when declaring local functions
   - Why memory leak happens
+  - Good system programmers need write a toy C compiler
 - Make your own DSLs for profit
 - Develop a good taste
 
@@ -155,7 +152,7 @@ $\qquad \qquad \qquad$ ![w:600 h:320](../pics/syntax.png)
   - check other safety/security problems
     - Lifetime analysis
 - Type soundness: no runtime type error when type checks
-
+- Reuse code with IDE tooling
 <!-- 语义分析是现代语言最复杂的一块，语言设计也要考虑如何在 表达力，可读性，和可分析性方面做个权衡 -->
 
 ---
@@ -193,6 +190,31 @@ $\qquad \qquad \qquad$ ![w:600 h:320](../pics/syntax.png)
 - Most influential in numeric compuations, DSA
 <!-- 优化主要是数值计算比较重要，
 性能最大的天花板还是语言一开始设计决定的 很多工业语言Golang, OCaml做的优化并不算多 -->
+---
+
+# The smallest practical example: regular language
+
+![alt text](image.png)
+
+---
+
+# Regular language compiler 
+
+![h:600](./regex-compiler.png)
+
+---
+
+# Regular language VM
+
+- Interpreter (backtracking)
+- Optimized interpreter (backtracking with memoization)
+- Linearized interpretation
+- Compiler (CPU interpreted)
+
+---
+
+# Homework: finish regex compiler and regex VM
+
 
 ---
 
@@ -388,21 +410,19 @@ enum Instr {
   Add
   Mul
 } // non-recursive
-type Instrs @immut/list.T[Instr]
-type Operand Int
-type Stack @immut/list.T[Operand]
+typealias Instrs = @immut/list.T[Instr]
+typealias Operand = Int
+typealias Stack = @immut/list.T[Operand]
 ```
 
 ```moonbit
-fn eval(instrs : Instrs, stk : Stack) -> Int {
-  match (instrs.0, stk.0) {
-    (Cons(Cst(i), rest), _) => eval(rest, Cons(i, stk.0))
-    (Cons(Add, rest), Cons(Operand(a), Cons(Operand(b), stk))) =>
-      eval(rest, Cons(a + b, stk))
-    (Cons(Mul, rest), Cons(Operand(a), Cons(Operand(b), stk))) =>
-      eval(rest, Cons(a * b, stk))
-    (Nil, Cons(Operand(a), _)) => a
-    _ => abort("Matched none")
+fn loop_eval(instrs : Instrs, stk : Stack) -> Int {
+  loop instrs, stk {
+    Cons(Cst(i), rest), stk => continue rest, Cons(i, stk)
+    Cons(Add, rest), Cons(a, Cons(b, stk)) => continue rest, Cons(a + b, stk)
+    Cons(Mul, rest), Cons(a, Cons(b, stk)) => continue rest, Cons(a * b, stk)
+    Nil, Cons(a, _) => a
+    _, _ => abort("Matched none")
   }
 }
 ```
@@ -517,9 +537,9 @@ $$
 
 ---
 
-# Homework0
+# Homework
 
-Implement the compilation algorithm in ReScript
+Implement the compilation algorithm 
 
 <!--
 
@@ -769,6 +789,9 @@ cenv是完全静态的编译时的环境
 
 ---
 
+# Next: add new instructions to our VM to support the new langauge features 
+ 
+---
 # Compile $\mathsf{Nameless.expr}$
 
 ```moonbit
@@ -862,7 +885,7 @@ What have we achieved through compilation? Compare the runtime environment
 
 $\qquad \qquad \qquad$ ![w:650 h:300](../pics/summary.png)
 
-### Homework 1
+### Homework 
 
 - Write an interpreter for the stack machine with variables
 - Write a compiler to translate $\mathsf{Nameless.expr}$ to stack machine instructions
