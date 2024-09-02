@@ -3,11 +3,23 @@ package moonbitlang/minimbt/util
 // Values
 fn die[T](String) -> T
 
+fn i32_to_hex(Int) -> String
+
+fn i64_to_hex(Int64) -> String
+
 // Types and methods
+type IndentLogger
+impl IndentLogger {
+  indent(Self) -> Unit
+  new(Logger) -> Self
+  outdent(Self) -> Unit
+  write_string(Self, String) -> Unit
+}
 
 // Type aliases
 
 // Traits
 
 // Extension Methods
+impl Logger for IndentLogger
 
