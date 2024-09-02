@@ -2,84 +2,13 @@ struct PrettyKnf {
   knf : Knf
 }
 
-priv struct IndentLogger {
-  logger : Logger
-  mut indent : Int
-  mut line_start : Bool
-}
-
-fn IndentLogger::print_indent(self : IndentLogger) -> Unit {
-  for i = 0; i < self.indent; i = i + 1 {
-    self.logger.write_string("  ")
-  }
-}
-
-fn IndentLogger::indent(self : IndentLogger) -> Unit {
-  self.indent += 1
-}
-
-fn IndentLogger::outdent(self : IndentLogger) -> Unit {
-  self.indent -= 1
-}
-
-impl Logger for IndentLogger with write_sub_string(
-  self : IndentLogger,
-  s : String,
-  start : Int,
-  len : Int
-) -> Unit {
-  // Find the next newline character
-  let mut start = start
-  let mut curr = start
-  let end = start + len
-  while curr < end {
-    if self.line_start {
-      self.print_indent()
-      self.line_start = false
-    }
-    if s[curr] == '\n' {
-      self.logger.write_sub_string(s, start, curr - start)
-      self.logger.write_char('\n')
-      self.line_start = true
-      start = curr + 1
-    }
-    curr += 1
-  }
-  if self.line_start && start < end {
-    self.print_indent()
-    self.line_start = false
-  }
-  self.logger.write_sub_string(s, start, end - start)
-}
-
-impl Logger for IndentLogger with write_char(self : IndentLogger, c : Char) -> Unit {
-  if c == '\n' {
-    self.logger.write_char(c)
-    self.line_start = true
-  } else {
-    if self.line_start {
-      self.print_indent()
-      self.line_start = false
-    }
-    self.logger.write_char(c)
-  }
-}
-
-impl Logger for IndentLogger with write_string(self : IndentLogger, s : String) -> Unit {
-  Logger::write_sub_string(self, s, 0, s.length())
-}
-
-fn IndentLogger::write_string(self : IndentLogger, s : String) -> Unit {
-  Logger::write_string(self, s)
-}
-
 pub fn Knf::to_pretty_print(self : Knf) -> PrettyKnf {
   { knf: self }
 }
 
 fn PrettyKnf::print_one_level(
   self : PrettyKnf,
-  logger : IndentLogger,
+  logger : @util.IndentLogger,
   val : Knf
 ) -> Unit {
   match val {
@@ -205,6 +134,6 @@ fn PrettyKnf::print_one_level(
 }
 
 pub impl Show for PrettyKnf with output(self : PrettyKnf, logger : Logger) -> Unit {
-  let indent_logger = { logger, indent: 0, line_start: true }
+  let indent_logger = @util.IndentLogger::new(logger)
   self.print_one_level(indent_logger, self.knf)
 }
