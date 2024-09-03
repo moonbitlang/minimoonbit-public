@@ -16,7 +16,7 @@
 | Part 2 | Parsing                                            |        |       |              |                     |
 | Part 3 | Semantics analysis and type inferences             |        |       |              |                     |
 | Part 4 | Bidrectional type checking                         |
-| Part 5 | Stack machine and compilation                      |        |       |              |
-| Part 6 | IR designs (ANF, CPS)                              |
-| Part 7 | Closure calculus                                   |        |       |
-| Part 8 | Register allocation & Garbage collection           |        |       |              |                     |
+| Part 5 | IR designs (ANF, CPS, KNF)                              |
+| Part 6 | Closure calculus                                   |        |       |
+| Part 7 | Register allocation           |        |       |              |                     |
+| Part 8 | Garbage collection           |        |       |              |                     |
