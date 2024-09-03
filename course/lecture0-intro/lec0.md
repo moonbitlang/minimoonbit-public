@@ -83,10 +83,10 @@ $$
 \begin{array} {|c|c|c|c|}
  \text{Lec} & \text{Topic} & \text{Lec} & \text{Topic} \\
  \hline
- 0 & \text{Introduction to language design and implementation} & 5  & \text{Stack machine and compilation}\\
- 1 & \text{MoonBit crash course} & 6 & \text{IR designs (ANF, CPS)}\\
- 2 & \text{Parsing} & 7 & \text{Closure Calculus}\\
- 3 & \text{Semantics analysis and type inferences} & 8 & \text{Register allocation \& Garbage collection}\\
+ 0 & \text{Introduction to language design and implementation} & 5  & \text{IR designs (ANF, CPS, KNF)}\\
+ 1 & \text{MoonBit crash course} & 6 & \text{Closure Calculus}\\
+ 2 & \text{Parsing} & 7 & \text{Register allocation}\\
+ 3 & \text{Semantics analysis and type inferences} & 8 & \text{Garbage collection}\\
  4 & \text{Bidrectional type checking} &  & \\
 \end{array}
 $$
@@ -163,7 +163,7 @@ $\qquad \qquad \qquad$ ![w:600 h:320](../pics/syntax.png)
 - Pattern match desugaring
 - Closure conversion
 - Language specific optimizations
-- IR relatively rich, MLIR, Direct style, ANF, CPS etc
+- IR relatively rich, MLIR, Direct style, ANF, KNF, CPS etc
 <!-- * IR forms: Direct style, ANF, CPS, SS -->
 
 ---
@@ -298,96 +298,7 @@ fn eval(e : Expr) -> Int {
 
 ---
 
-<!-- # Semantics
 
-* Big-step operational semantics: $e \Downarrow v$
-  * easy to understand
-  * translate directly to recursive functions
-* Small-step operational semantics: $e \rightarrow s_1 \rightarrow \cdots \rightarrow s_n \rightarrow v$
-  * fine-grained transition steps and more suitable for reasoning
-  * usually defined inductively as a relation between states
-* Denotational semantics
-  * remove syntactic structures to obtain mathematical objects
-  * for better compositionality and interoperability
-* Axiomatic semantics, game semantics, etc
-
-We mainly use big-step operational semantics for this course.
-
---- -->
-
-# Formalization
-
-### Semantics
-
-The evaluation result is a value, which is an integer for our expression language
-
-$$
-\begin{align}
-& \mathsf{terms}: && e::= \mathsf{Cst}(i) \mid \mathsf{Add}(e_1, e_2) \mid \mathsf{Mul}(e_1, e_2)
-\\
-& \mathsf{values}: && v ::= i \in \mathsf{Int}
-\end{align}
-$$
-
-The evaluation rules:
-
-$$
-\begin{equation}
-  \begin{prooftree}
-    \AXC{}\RL{E-const}
-    \UIC{$\mathsf{Cst}(i) \Downarrow i$}
-  \end{prooftree}
-  \qquad
-  \begin{prooftree}
-    \AXC{$e_1 \Downarrow v_1$}
-    \AXC{$e_2 \Downarrow v_2$}
-    \RL{E-add}
-    \BIC{$\mathsf{Add}(e_1, e_2) \Downarrow (v_1 + v_2)$}
-  \end{prooftree}
-  \qquad
-  \begin{prooftree}
-    \AXC{$e_1 \Downarrow v_1$}
-    \AXC{$e_2 \Downarrow v_2$}
-    \RL{E-mul}
-    \BIC{$\mathsf{Mul}(e_1, e_2) \Downarrow (v_1 * v_2)$}
-  \end{prooftree}
-\end{equation}
-$$
-
-<!-- 如果国内的学生第一次看到这种表达， 可能会有很多问题, 但是这个门槛还是要过 这样方便阅读论文，以及和人交流
-- 先定义要研究的领域 term, value (展开 ....)
-- 往下的箭头表示 一种二元关系，e ｜｜ v 表示e经过很多步计算到v
-- 停一下 看下有什么问题
- -->
-
----
-
-# Inference rules
-
-- The evaluation relation $e \Downarrow v$ means expression $e$ evaluates to value $v$, for example
-  - $\mathsf{Cst}(42) \Downarrow 42$
-  - $\mathsf{Add}(\mathsf{Cst}(3), \mathsf{Cst}(4)) \Downarrow 7$
-- Inference rules provide a concise way of specifying language properties, analyses, etc
-  - If the **premises** are true, then the **conclusion** is true
-  - An **axiom** is a rule with no premises
-  - Inference rules can be **instantiated** by replacing **metavariables** $(e, e_1, e_2, x, i, \cdots)$ with expressions, program variables, integers
-
----
-
-<!--
-我们这里inference rules给出的是一个模版，可以实例化的
--->
-
-# Proof Tree
-
-- Instantiated rules can be combined into proof trees
-- $e \Downarrow v$ holds if and only if there is a finite proof tree constructed from correctly instantiated rules, and leaves of the tree are axioms
-
-<!--
-这里还有一个概念 叫证明树，我画一个图来帮助大家理解
--->
-
----
 
 # What is the problem of our interpreter?
 
@@ -402,7 +313,7 @@ $$
 
 ---
 
-# Lowering to a stack machine and interpret
+# Compile/Lowering to a stack machine
 
 ```moonbit
 enum Instr {
@@ -539,12 +450,8 @@ $$
 
 # Homework
 
-Implement the compilation algorithm 
+Implement the compilation algorithm in MoonBit
 
-<!--
-
-第一堂课到此结束
--->
 
 ---
 
@@ -598,68 +505,6 @@ fn eval(expr : Expr, env : Env) -> Int {
 
 ---
 
-# Formalization
-
-$$
-\begin{align}
-& \mathsf{terms}: && e::= \mathsf{Cst}(i) \mid \mathsf{Add}(e_1, e_2) \mid \mathsf{Mul}(e_1, e_2)
-\mid \mathsf{Var}(i) \mid \mathsf{Let}(x, e_1, e_2)
-\\
-& \mathsf{envs}: && \Gamma ::= \epsilon \mid (x, v) \mathrel{::} \Gamma
-\end{align}
-$$
-
-Notations for the environment:
-
-$$
-\text{variable access: }\Gamma[x] \qquad \text{variable update: } \Gamma[x:=v]
-$$
-
-The evaluation rules:
-
-$$
-\begin{gather}
-  \begin{prooftree}
-    \AXC{}\RL{E-const}
-    \UIC{$\Gamma \vdash \mathsf{Cst}(i) \Downarrow i$}
-  \end{prooftree}
-  \qquad
-  \begin{prooftree}
-    \AXC{$\Gamma \vdash e_1 \Downarrow v_1$}
-    \AXC{$\Gamma \vdash e_2 \Downarrow v_2$}
-    \RL{E-add}
-    \BIC{$\Gamma \vdash \mathsf{Add}(e_1, e_2) \Downarrow (v_1 + v_2)$}
-  \end{prooftree}
-  \qquad
-  \begin{prooftree}
-    \AXC{$\Gamma \vdash e_1 \Downarrow v_1$}
-    \AXC{$\Gamma \vdash e_2 \Downarrow v_2$}
-    \RL{E-mul}
-    \BIC{$\Gamma \vdash \mathsf{Mul}(e_1, e_2) \Downarrow (v_1 * v_2)$}
-  \end{prooftree}
-  \\[1em]
-  \begin{prooftree}
-    \AXC{$\Gamma[x] = v$}
-    \RL{E-var}
-    \UIC{$\Gamma \vdash \mathsf{Var}(x) \Downarrow v$}
-  \end{prooftree}
-  \qquad
-  \begin{prooftree}
-    \AXC{$\Gamma \vdash e_1 \Downarrow v_1$}
-    \AXC{$\Gamma[x := v_1] \vdash e_2 \Downarrow v$}
-    \RL{E-let}
-    \BIC{$\Gamma \vdash \mathsf{Let}(x, e_1, e_2) \Downarrow v$}
-  \end{prooftree}
-\end{gather}
-$$
-
-<!-- 这里的计算关系是个三元关系，可以用前缀来表示，但是逻辑学家们喜欢用这种符号来表示
--- 过一下每个规则。
-这个关系是算法制导的， 每一个下面的结论只有一种反向的对应的。
--->
-
----
-
 # What's the problem in our evaluator
 
 - Where is the redundant work and can be resolved in compile time?
@@ -704,67 +549,8 @@ fn eval(e : ExprNameless, env : Env) -> Int {
 }
 ```
 
-## <!-- 和前面的带名字的一样 只是寻址加快了,并且复杂度和变量名的长度无关，局部变量成功的用个栈来进行存储 -->
 
 ---
-
-# Semantics
-
-Terms and values are the same.
-Environments become sequence of values $v_1 \mathrel{::} v_2 \mathrel{::} \cdots \mathrel{::} \epsilon$, accessed by position $s[n]$
-
-$$
-\begin{align}
-& \mathsf{envs}: && s ::= \epsilon \mid v \mathrel{::} s
-\end{align}
-$$
-
-Evaluation rules:
-
-$$
-\begin{gather}
-  \begin{prooftree}
-    \AXC{}\RL{E-const}
-    \UIC{$s \vdash \mathsf{Cst}(i) \Downarrow i$}
-  \end{prooftree}
-  \qquad
-  \begin{prooftree}
-    \AXC{$s \vdash e_1 \Downarrow v_1$}
-    \AXC{$s \vdash e_2 \Downarrow v_2$}
-    \RL{E-add}
-    \BIC{$s \vdash \mathsf{Add}(e_1, e_2) \Downarrow (v_1 + v_2)$}
-  \end{prooftree}
-  \qquad
-  \begin{prooftree}
-    \AXC{$s \vdash e_1 \Downarrow v_1$}
-    \AXC{$s \vdash e_2 \Downarrow v_2$}
-    \RL{E-mul}
-    \BIC{$s \vdash \mathsf{Mul}(e_1, e_2) \Downarrow (v_1 * v_2)$}
-  \end{prooftree}
-  \\[1em]
-  \begin{prooftree}
-    \AXC{$s[i] = v$}
-    \RL{E-var}
-    \UIC{$s \vdash \mathsf{Var}(i) \Downarrow v$}
-  \end{prooftree}
-  \qquad
-  \begin{prooftree}
-    \AXC{$s \vdash e_1 \Downarrow v_1$}
-    \AXC{$v_1 \mathrel{::} s  \vdash e_2 \Downarrow v$}
-    \RL{E-let}
-    \BIC{$s \vdash \mathsf{Let}(x, e_1, e_2) \Downarrow v$}
-  \end{prooftree}
-\end{gather}
-$$
-
-## <!-- 形式化的语义和带名字的几乎一样，还是三元关系， 只是环境的编码变了 -->
-
----
-
-# Explanation
-
-- The evaluation environment $\Gamma$ for $\mathsf{expr}$ contains both names and values
-- The evaluation environment $s$ for $\mathsf{Nameless.expr}$ only contains the values, indexes resolved at compile time
 
 ### Lowering $\mathsf{expr}$ to $\mathsf{Nameless.expr}$
 
@@ -840,7 +626,6 @@ $$
 The execution on the stack:
 $\qquad \quad$ ![w:850 h:200](../pics/stack1.png)
 
-<!-- 为了帮助大家的理解 我们举个例子-->
 
 ---
 
@@ -864,32 +649,11 @@ $\quad$ ![w:1050 h:200](../pics/stack2.png)
 
 ---
 
-# Summary 1
-
-What have we achieved through compilation? Compare the runtime environment
-
-- Evaluating $\mathsf{expr}$
-  - a symbolic environment $\Gamma$ for local variables
-  - (implicit) stack of the host language for temperaries
-- Evaluating $\mathsf{Nameless.expr}$
-  - a stack for local variables
-  - (implicit) stack of the host language for temperaries
-- For stack machine instructions, we have
-  - a stack for both local variables and temperaries
-
-## <!-- -->
-
----
-
-# Summary 2
-
-$\qquad \qquad \qquad$ ![w:650 h:300](../pics/summary.png)
-
 ### Homework 
 
 - Write an interpreter for the stack machine with variables
 - Write a compiler to translate $\mathsf{Nameless.expr}$ to stack machine instructions
-- Implement the dashed part (one language + two compilers)
+
 
 <!-- ### Semantics with Substitution -->
 <!-- we add the following new evaluation rules to the semantics -->
