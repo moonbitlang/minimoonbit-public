@@ -196,11 +196,101 @@ $\qquad \qquad \qquad$ ![w:600 h:320](../pics/syntax.png)
 
 ![alt text](image.png)
 
+
+---
+
+# Pipelines
+
+![h:500](./pipeline.png)
+
+- cst -> ast -> ir0 (asm) -> ir1(machinecode) ---interpreter---> result
+
+---
+
+# Pipelines (cont.)
+
+- cst -> ast (parser)
+
+```
+fn parse(cst : Json) -> Regex! {
+  match cst {
+    String(s) => {
+      // TODO: reduce the Empty usage  
+      let mut acc = Empty
+      for i in s {
+        acc = Seq(acc, Char(i))
+      }
+      acc
+    }
+    ["or", a, b] => Alt(parse!(a), parse!(b))
+    ["seq", a, b] => Seq(parse!(a), parse!(b))
+    ["star", a] => Star(parse!(a))
+    ["plus", a] => Plus(parse!(a))
+    ["opt", a] => Opt(parse!(a))
+    _ => fail!("invalid cst \{cst}")
+  }
+}
+
+```
+
+
+---
+
+# pipelines (cont.)
+
+- ast -> ir0 (compile)
+```
+fn compile_aux(regex : Regex) -> Array[Instr] {
+  match regex {
+    Empty => []
+    Seq(r1, r2) => [..compile_aux(r1), ..compile_aux(r2)]
+    Alt(r1, r2) => {
+      let l1 = gen_label()
+      let l2 = gen_label()
+      let l3 = gen_label()
+      [
+        Split(l1, l2),
+        Label(l1),
+        ..compile_aux(r1),
+        Jmp(l3),
+        Label(l2),
+        ..compile_aux(r2),
+        Label(l3),
+      ]
+    }
+    ...
+
+```
+
 ---
 
 # Regular language compiler 
 
 ![h:600](./regex-compiler.png)
+
+---
+
+# pipelines (cont.)
+
+- ir0 -> ir1 (link)
+
+```
+fn assemble(p : Program) -> MProgram {
+  let labels = collect_labels(p)
+  let instrs = []
+  for instr in p.0 {
+    match instr {
+      Char(c) => instrs.push(MChar(c))
+      Match => instrs.push(MMatch)
+      Jmp(l) => instrs.push(MJmp(labels[l].unwrap()))
+      Split(l1, l2) =>
+        instrs.push(MSplit(labels[l1].unwrap(), labels[l2].unwrap()))
+      Label(l) => ()
+    }
+  }
+  instrs
+}
+```
 
 ---
 
