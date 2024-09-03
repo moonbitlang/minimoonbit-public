@@ -9,7 +9,19 @@
 
 # 课程安排
 
-| Date   | Topic                                              | Slides | Video | Example code | Recommended reading |
+$$
+\begin{array} {|c|c|c|c|}
+ \text{Lec} & \text{Topic} & \text{Lec} & \text{Topic} \\
+ \hline
+ 0 & \text{Introduction to language design and implementation} & 5  & \text{IR designs (ANF, CPS, KNF)}\\
+ 1 & \text{MoonBit crash course} & 6 & \text{Closure Calculus}\\
+ 2 & \text{Parsing} & 7 & \text{Register allocation}\\
+ 3 & \text{Semantics analysis and type inferences} & 8 & \text{Garbage collection}\\
+ 4 & \text{Bidrectional type checking} &  & \\
+\end{array}
+$$
+
+<!-- | Date   | Topic                                              | Slides | Video | Example code | Recommended reading |
 | ------ | -------------------------------------------------- | ------ | ----- | ------------ | ------------------- |
 | Part 0 | Introduction to language design and implementation |        |       |              |
 | Part 1 | MoonBit crash course                               |        |       |              |                     |
@@ -19,4 +31,4 @@
 | Part 5 | Stack machine and compilation                      |        |       |              |
 | Part 6 | IR designs (ANF, CPS)                              |
 | Part 7 | Closure calculus                                   |        |       |
-| Part 8 | Register allocation & Garbage collection           |        |       |              |                     |
+| Part 8 | Register allocation & Garbage collection           |        |       |              |                     | -->
