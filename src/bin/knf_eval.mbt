@@ -73,7 +73,7 @@ fn main {
     file.unwrap()
   }
   let contents = @fs.read_to_string(file)
-  let typechecked = to_typecheked(contents)
+  let typechecked = to_typechecked(contents)
   if print_ast.val {
     println(typechecked.to_string())
   }
@@ -144,7 +144,7 @@ fn main {
   }
 }
 
-fn to_typecheked(source : String) -> @types.Syntax {
+fn to_typechecked(source : String) -> @types.Syntax {
   abort("todo")
 }
 
