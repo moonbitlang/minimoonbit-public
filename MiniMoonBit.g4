@@ -46,40 +46,35 @@ let_stmt:
 	'let' IDENTIFIER type_annotation? '=' expr ';' stmt;
 type_annotation: COLON type;
 
-fn_decl_stmt: top_fn_decl ';' stmt;
+fn_decl_stmt: nontop_fn_decl ';' stmt;
 
 assign_stmt:
 	get_expr '=' expr ';' stmt; // x[y] = z;
 expr_stmt: expr;
 
 // Expressions, in order of precedence.
-expr:
-	add_sub_level_expr
-	| add_sub_level_expr '==' expr
-	| add_sub_level_expr '<=' expr;
+expr: // not associative
+	| add_sub_level_expr '==' add_sub_level_expr
+	| add_sub_level_expr '<=' add_sub_level_expr
+	| add_sub_level_expr;
 
-add_sub_level_expr:
-	mul_div_level_expr
-	| mul_div_level_expr '+' add_sub_level_expr
-	| mul_div_level_expr '-' add_sub_level_expr;
+add_sub_level_expr: // left associative
+	| add_sub_level_expr '+' mul_div_level_expr
+	| add_sub_level_expr '-' mul_div_level_expr
+	| mul_div_level_expr;
 
-mul_div_level_expr:
-	if_level_expr
-	| if_level_expr '*' mul_div_level_expr
-	| if_level_expr '/' mul_div_level_expr;
+mul_div_level_expr: // left associative
+	| mul_div_level_expr '*' if_level_expr
+	| mul_div_level_expr '/' if_level_expr
+	| if_level_expr;
 
 if_level_expr: get_or_apply_level_expr | if_expr;
 if_expr: 'if' expr block_expr ('else' block_expr)?;
 
 get_or_apply_level_expr:
-	get_expr
-	| apply_expr
-	| value_expr;
-get_expr: value_expr '[' expr ']'; // x[y]
-apply_expr: empty_apply_expr | nonempty_apply_expr;
-empty_apply_expr: value_expr '(' ')'; // f()
-nonempty_apply_expr:
-	value_expr '(' expr (',' expr)* ')'; // f(x, y)
+	| value_expr
+	| get_or_apply_level_expr '[' expr ']' // x[y]
+	| get_or_apply_level_expr '(' (expr (',' expr)*)? ')'; // f(x, y)
 
 // Value expressions
 value_expr:
@@ -154,3 +149,4 @@ COLON: ':';
 SEMICOLON: ';';
 COMMA: ',';
 WS: [ \t\r\n]+ -> skip;
+COMMENT: '//' ~[\r\n]* -> skip;
