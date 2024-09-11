@@ -1,5 +1,5 @@
-let t = 123;
-let f = 456;
+let t: Int = 123;
+let f: Int = 456;
 
 fn even(x: Int) -> Int {
   fn odd(x: Int) -> Int {
