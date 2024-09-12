@@ -340,13 +340,13 @@ test {
   inspect!(
     Syntax::App(Syntax::Var("f"), [Syntax::Int(1)]).to_json().stringify(),
     content=
-      #|["App",["Var","f"],[["Int",1.0]]]
+      #|["App",["Var","f"],[["Int",1]]]
     ,
   )
   inspect!(
     Syntax::Array(Syntax::Int(1), Syntax::Int(2)).to_json().stringify(),
     content=
-      #|["Array",["Int",1.0],["Int",2.0]]
+      #|["Array",["Int",1],["Int",2]]
     ,
   )
   inspect!(
@@ -358,19 +358,19 @@ test {
   inspect!(
     Syntax::Double(1.0).to_json().stringify(),
     content=
-      #|["Float",1.0]
+      #|["Float",1]
     ,
   )
   inspect!(
     Syntax::Eq(Syntax::Int(1), Syntax::Int(2)).to_json().stringify(),
     content=
-      #|["Eq",["Int",1.0],["Int",2.0]]
+      #|["Eq",["Int",1],["Int",2]]
     ,
   )
   inspect!(
     Syntax::Get(Syntax::Int(1), Syntax::Int(2)).to_json().stringify(),
     content=
-      #|["Get",["Int",1.0],["Int",2.0]]
+      #|["Get",["Int",1],["Int",2]]
     ,
   )
   inspect!(
@@ -378,7 +378,7 @@ test {
     .to_json()
     .stringify(),
     content=
-      #|["If",["Bool",true],["Int",1.0],["Int",2.0]]
+      #|["If",["Bool",true],["Int",1],["Int",2]]
     ,
   )
 }
@@ -388,7 +388,7 @@ test {
   inspect!(Syntax::from_json!(["Bool", true]), content="Bool(true)")
   inspect!(Syntax::from_json!(["Bool", false]), content="Bool(false)")
   inspect!(Syntax::from_json!(["Int", 1]), content="Int(1)")
-  inspect!(Syntax::from_json!(["Float", 1.0]), content="Double(1.0)")
+  inspect!(Syntax::from_json!(["Float", 1.0]), content="Double(1)")
   inspect!(
     Syntax::from_json!(["Not", ["Bool", true]]),
     content="Not(Bool(true))",
@@ -415,19 +415,19 @@ test {
   )
   inspect!(
     Syntax::from_json!(["FAdd", ["Float", 1.0], ["Float", 2.0]]),
-    content="Prim(Double(1.0), Double(2.0), Add, kind=Some(Double))",
+    content="Prim(Double(1), Double(2), Add, kind=Some(Double))",
   )
   inspect!(
     Syntax::from_json!(["FSub", ["Float", 1.0], ["Float", 2.0]]),
-    content="Prim(Double(1.0), Double(2.0), Sub, kind=Some(Double))",
+    content="Prim(Double(1), Double(2), Sub, kind=Some(Double))",
   )
   inspect!(
     Syntax::from_json!(["FMul", ["Float", 1.0], ["Float", 2.0]]),
-    content="Prim(Double(1.0), Double(2.0), Mul, kind=Some(Double))",
+    content="Prim(Double(1), Double(2), Mul, kind=Some(Double))",
   )
   inspect!(
     Syntax::from_json!(["FDiv", ["Float", 1.0], ["Float", 2.0]]),
-    content="Prim(Double(1.0), Double(2.0), Div, kind=Some(Double))",
+    content="Prim(Double(1), Double(2), Div, kind=Some(Double))",
   )
   inspect!(
     Syntax::from_json!(["Eq", ["Int", 1], ["Int", 2]]),
