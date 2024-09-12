@@ -1,0 +1,37 @@
+name: moonbit-check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: moon version
+        run: |
+          moon version --all
+          moonrun --version
+
+      - name: moon update
+        run: moon update
+
+      - name: moon check
+        run: moon check
+
+      - run: moon test --target all
+      - run: moon test --release --target all
+
+      - name: format diff
+        run: |
+          moon fmt
+          git diff --exit-code
