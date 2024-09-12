@@ -48,23 +48,25 @@ type_annotation: COLON type;
 
 fn_decl_stmt: nontop_fn_decl ';' stmt;
 
-assign_stmt:
-	get_expr '=' expr ';' stmt; // x[y] = z;
+// x[y] = z;
+assign_stmt: get_expr '=' expr ';' stmt;
+get_expr: get_or_apply_level_expr '[' expr ']';
+
 expr_stmt: expr;
 
 // Expressions, in order of precedence.
 expr: // not associative
-	| add_sub_level_expr '==' add_sub_level_expr
+	add_sub_level_expr '==' add_sub_level_expr
 	| add_sub_level_expr '<=' add_sub_level_expr
 	| add_sub_level_expr;
 
 add_sub_level_expr: // left associative
-	| add_sub_level_expr '+' mul_div_level_expr
+	add_sub_level_expr '+' mul_div_level_expr
 	| add_sub_level_expr '-' mul_div_level_expr
 	| mul_div_level_expr;
 
 mul_div_level_expr: // left associative
-	| mul_div_level_expr '*' if_level_expr
+	mul_div_level_expr '*' if_level_expr
 	| mul_div_level_expr '/' if_level_expr
 	| if_level_expr;
 
@@ -72,13 +74,15 @@ if_level_expr: get_or_apply_level_expr | if_expr;
 if_expr: 'if' expr block_expr ('else' block_expr)?;
 
 get_or_apply_level_expr:
-	| value_expr
-	| get_or_apply_level_expr '[' expr ']' // x[y]
-	| get_or_apply_level_expr '(' (expr (',' expr)*)? ')'; // f(x, y)
+	value_expr # value_expr_
+	// x[y]
+	| get_or_apply_level_expr '[' expr ']' # get_expr_
+	// f(x, y)
+	| get_or_apply_level_expr '(' (expr (',' expr)*)? ')' # apply_expr;
 
 // Value expressions
 value_expr:
-	| unit_expr
+	unit_expr
 	| tuple_expr
 	| bool_expr
 	| identifier_expr
