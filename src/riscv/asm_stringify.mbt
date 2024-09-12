@@ -1,10 +1,8 @@
-pub fn asm_stringify(asm : AssemblyFunction) -> String {
-  let buf = Buffer::new()
-  let name = asm.name
-  buf.write_string("\{name}:\n")
-  for inst in asm.body {
-    Show::output(inst, buf)
+pub fn print_functions(asm : Array[AssemblyFunction]) -> String {
+  let logger = Buffer::new()
+  for f in asm {
+    f.output(logger)
+    logger.write_string("\n")
   }
-  buf.write_string("\n")
-  buf.to_string()
+  logger.to_string()
 }

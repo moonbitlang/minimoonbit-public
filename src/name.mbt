@@ -7,6 +7,22 @@ pub impl Show for Name with output(self : Name, logger : Logger) -> Unit {
   logger.write_string(self.to_string())
 }
 
+pub fn Name::from_string(s : String) -> Name! {
+  let first_dot = s.index_of(".")
+  if first_dot != -1 {
+    let name = s.substring(start=0, end=first_dot)
+    let slot = @strconv.parse_int!(
+      s.substring(start=first_dot + 1, end=s.length()),
+    )
+    Name::name_and_slot(name, slot)
+  } else if s.starts_with("_") {
+    let slot = @strconv.parse_int!(s.substring(start=1, end=s.length()))
+    Name::slot_only(slot)
+  } else {
+    Name::name_only(s)
+  }
+}
+
 pub fn Name::to_string(self : Name) -> String {
   let { name, slot } = self
   match (name, slot) {
@@ -26,4 +42,15 @@ pub fn Name::name_and_slot(name : String, slot : Int) -> Name {
 
 pub fn Name::slot_only(slot : Int) -> Name {
   { name: None, slot }
+}
+
+pub fn Name::to_json(self : Name) -> Json {
+  self.to_string().to_json()
+}
+
+pub fn Name::from_json(json : Json) -> Name! {
+  match json {
+    Json::String(s) => Name::from_string!(s)
+    _ => fail!("Name::from_json: expected a string, but got \{json}")
+  }
 }

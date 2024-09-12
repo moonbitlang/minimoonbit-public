@@ -9,6 +9,13 @@ pub fn KnfEnv::new(externals : @immut/hashmap.T[String, Type]) -> KnfEnv {
   { counter: 1, externals }
 }
 
+pub fn KnfEnv::init_counter_from_existing(
+  self : KnfEnv,
+  existing : Knf
+) -> Unit {
+  self.counter = knf_max_counter(existing) + 1
+}
+
 fn KnfEnv::new_temp(self : KnfEnv) -> Name {
   let temp = Name::slot_only(self.counter)
   self.counter += 1
