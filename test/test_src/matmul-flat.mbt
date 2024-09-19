@@ -32,22 +32,22 @@ fn mul(l: Int, m: Int, n: Int, a: Array[Array[Double]], b: Array[Array[Double]],
 
 fn main {
   let dummy = Array::make(0, 0.0);
-  fn init(i: Int, n: Int, mat: Array[Array[Double]]) -> Unit {
+  fn init_arr(i: Int, n: Int, mat: Array[Array[Double]]) -> Unit {
     if 0 <= i {
         mat[i] = Array::make(n, 0.0);
-        init(i - 1, n, mat)
+        init_arr(i - 1, n, mat)
     } else {
       ()
     }
   };
-  fn make(m: Int, n: Int, dummy: Array[Double]) -> Array[Array[Double]] {
+  fn make_arr(m: Int, n: Int, dummy: Array[Double]) -> Array[Array[Double]] {
     let mat = Array::make(m, dummy);
-    let _ = init(m - 1, n, mat);
+    let _ = init_arr(m - 1, n, mat);
     mat
   };
-  let a = make(2, 3, dummy);
-  let b = make(3, 2, dummy);
-  let c = make(2, 2, dummy);
+  let a = make_arr(2, 3, dummy);
+  let b = make_arr(3, 2, dummy);
+  let c = make_arr(2, 2, dummy);
   a[0][0] = 1.0; a[0][1] = 2.0; a[0][2] = 3.0;
   a[1][0] = 4.0; a[1][1] = 5.0; a[1][2] = 6.0;
   b[0][0] = 7.0; b[0][1] = 8.0;

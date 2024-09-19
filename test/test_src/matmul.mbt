@@ -28,22 +28,22 @@ fn matmul(l: Int, m: Int, n: Int, a: Array[Array[Double]], b: Array[Array[Double
 
 fn main {
   let dummy = Array::make(0, 0.0);
-  fn make(m: Int, n: Int) -> Array[Array[Double]] {
+  fn gen_arr(m: Int, n: Int) -> Array[Array[Double]] {
     let mat = Array::make(m, dummy);
-    fn init(i: Int) -> Unit {
+    fn init_arr(i: Int) -> Unit {
       if 0 <= i {
         mat[i] = Array::make(n, 0.0);
-        init(i - 1)
+        init_arr(i - 1)
       } else {
         ()
       }
     };
-    let _ = init(m - 1);
+    let _ = init_arr(m - 1);
     mat
   };
-  let a = make(2, 3);
-  let b = make(3, 2);
-  let c = make(2, 2);
+  let a = make_arr(2, 3);
+  let b = make_arr(3, 2);
+  let c = make_arr(2, 2);
   a[0][0] = 1.0; a[0][1] = 2.0; a[0][2] = 3.0;
   a[1][0] = 4.0; a[1][1] = 5.0; a[1][2] = 6.0;
   b[0][0] = 7.0; b[0][1] = 8.0;

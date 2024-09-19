@@ -93,7 +93,8 @@ value_expr:
 	| not_expr
 	| array_make_expr;
 unit_expr: '(' ')'; // ()
-tuple_expr: '(' expr (',' expr)* ')'; // (x, y)
+tuple_expr:
+	'(' expr (',' expr)+ ')'; // (x, y); 1-tuple is not allowed
 block_expr: '{' stmt '}'; // { blah; blah; }
 bool_expr: 'true' | 'false';
 neg_expr: '-' value_expr;
