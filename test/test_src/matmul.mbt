@@ -28,7 +28,7 @@ fn matmul(l: Int, m: Int, n: Int, a: Array[Array[Double]], b: Array[Array[Double
 
 fn main {
   let dummy = Array::make(0, 0.0);
-  fn gen_arr(m: Int, n: Int) -> Array[Array[Double]] {
+  fn make_arr(m: Int, n: Int) -> Array[Array[Double]] {
     let mat = Array::make(m, dummy);
     fn init_arr(i: Int) -> Unit {
       if 0 <= i {
