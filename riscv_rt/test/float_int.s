@@ -1,6 +1,6 @@
-.global mincaml_main
+.global minimbt_main
 
-mincaml_main:
+minimbt_main:
     li a0, 1
     call mincaml_float_of_int
     call mincaml_int_of_float

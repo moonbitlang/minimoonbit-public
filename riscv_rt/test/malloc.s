@@ -1,6 +1,6 @@
-.global mincaml_main
+.global minimbt_main
 
-mincaml_main:
+minimbt_main:
     li a0, 1024
     call mincaml_malloc
     li t0, 777

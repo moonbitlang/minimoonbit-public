@@ -1,6 +1,6 @@
-.global mincaml_main
+.global minimbt_main
 
-mincaml_main:
+minimbt_main:
     li a0, 666
     call mincaml_print_int
     li a0, 0
