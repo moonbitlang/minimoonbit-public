@@ -14,9 +14,9 @@
 | Part 0 | Introduction to language design and implementation | [lec0](./course/lecture0-intro/lec0.pdf)       |[课时一（上）](https://www.bilibili.com/video/BV1HNp3eUEcA/)、[课时一（下）](https://www.bilibili.com/video/BV1RipgeBEQd/)       |              |
 | Part 1 | MoonBit crash course                               | [lec1](./course/lecture1-crash-course/lec1.pdf) | [课时二](https://www.bilibili.com/video/BV1WtHQewEGj/) |              |                     |
 | Part 2 | Parsing                                            | [lec2](./course/lecture2-lex-parse/lec2.pdf) | [课时三](https://www.bilibili.com/video/BV1Eq4EeyEES/?spm_id_from=333.999.0.0)      |  [lec2.mbt](./course/lecture2-lex-parse/lec2.mbt) |                     |
-| Part 3 | Type inferences             | [lec3](./course/lecture3-typing/lec3.pdf)  |       |              |                     |
-| Part 4 | Bidrectional type checking                         | [lec4](./course/lecture4-bidir/lec4.pdf)
-| Part 5 | IR designs (ANF, CPS, KNF)                              |
-| Part 6 | Closure calculus                                   |        |       |
-| Part 7 | Register allocation           |        |       |              |                     |
+| Part 3 | Type inferences             | [lec3](./course/lecture3-typing/lec3.pdf)  |[课时四](https://www.bilibili.com/video/BV1qVtHeQEX5/?share_source=copy_web)       |              |                     |
+| Part 4 | Bidrectional type checking                         | [lec4](./course/lecture4-bidir/lec4.pdf) | [课时五](https://www.bilibili.com/video/BV151toe2EpF/?share_source=copy_web) |
+| Part 5 | IR designs (ANF, CPS, KNF)                              |   | [课时六](https://www.bilibili.com/video/BV1txxjenEXs/?share_source=copy_web)
+| Part 6 | Closure calculus                                   |        | [课时七](https://www.bilibili.com/video/BV1FysdemEZv/?share_source=copy_web)      |
+| Part 7 | Register allocation           |        | [课时八](https://www.bilibili.com/video/BV1GxsZeBENm/?share_source=copy_web)      |              |                     |
 | Part 8 | Garbage collection           |        |       |              |                     |
