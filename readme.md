@@ -16,7 +16,7 @@
 | Part 2 | Parsing                                            | [lec2](./course/lecture2-lex-parse/lec2.pdf) | [课时三](https://www.bilibili.com/video/BV1Eq4EeyEES/?spm_id_from=333.999.0.0)      |  [lec2.mbt](./course/lecture2-lex-parse/lec2.mbt) |                     |
 | Part 3 | Type inferences             | [lec3](./course/lecture3-typing/lec3.pdf)  |[课时四](https://www.bilibili.com/video/BV1qVtHeQEX5/)       |              |                     |
 | Part 4 | Bidrectional type checking                         | [lec4](./course/lecture4-bidir/lec4.pdf) | [课时五](https://www.bilibili.com/video/BV151toe2EpF/) |
-| Part 5 | IR designs (ANF, CPS, KNF)                              |   | [课时六](https://www.bilibili.com/video/BV1txxjenEXs/)
-| Part 6 | Closure calculus                                   |        | [课时七](https://www.bilibili.com/video/BV1FysdemEZv/)      |
-| Part 7 | Register allocation           |        | [课时八](https://www.bilibili.com/video/BV1GxsZeBENm/)      |              |                     |
+| Part 5 | IR designs (ANF, CPS, KNF)                              | [lec5](./course/lecture5-intermediate-representation/lec5.pdf)  | [课时六](https://www.bilibili.com/video/BV1txxjenEXs/) | [lec5.mbt](./course/lecture5-intermediate-representation/lec5.mbt)
+| Part 6 | Closure calculus                                   | [lec6](./course/lecture6-closure/lec6.pdf)       | [课时七](https://www.bilibili.com/video/BV1FysdemEZv/)      |
+| Part 7 | Register allocation           |[lec7](./course/lecture7-regalloc/lec7.pdf) | [课时八](https://www.bilibili.com/video/BV1GxsZeBENm/)      |              |                     |
 | Part 8 | Garbage collection           |        |       |              |                     |
