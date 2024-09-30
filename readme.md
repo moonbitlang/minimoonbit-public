@@ -19,4 +19,4 @@
 | Part 5 | IR designs (ANF, CPS, KNF)                              | [lec5](./course/lecture5-intermediate-representation/lec5.pdf)  | [课时六](https://www.bilibili.com/video/BV1txxjenEXs/) | [lec5.mbt](./course/lecture5-intermediate-representation/lec5.mbt)
 | Part 6 | Closure calculus                                   | [lec6](./course/lecture6-closure/lec6.pdf)       | [课时七](https://www.bilibili.com/video/BV1FysdemEZv/)      |
 | Part 7 | Register allocation           |[lec7](./course/lecture7-regalloc/lec7.pdf) | [课时八](https://www.bilibili.com/video/BV1GxsZeBENm/)      |              |                     |
-| Part 8 | Garbage collection           |        |       |              |                     |
+| Part 8 | Garbage collection           |        | [课时九（上）](https://www.bilibili.com/video/BV1G5xxeSECT)、[课时九（下）](https://www.bilibili.com/video/BV1urxseVEwa/)      |              |                     |
