@@ -41,9 +41,9 @@ fn main {
     let _ = init_arr(m - 1);
     mat
   };
-  let a = make_arr(2, 3);
-  let b = make_arr(3, 2);
-  let c = make_arr(2, 2);
+  let a = gen_arr(2, 3);
+  let b = gen_arr(3, 2);
+  let c = gen_arr(2, 2);
   a[0][0] = 1.0; a[0][1] = 2.0; a[0][2] = 3.0;
   a[1][0] = 4.0; a[1][1] = 5.0; a[1][2] = 6.0;
   b[0][0] = 7.0; b[0][1] = 8.0;
