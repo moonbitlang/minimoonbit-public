@@ -41,17 +41,17 @@ export fn minimbt_read_char() i32 {
 }
 
 export fn minimbt_print_int(i: i32) void {
-    std.debug.print("{d}", .{i});
+    _ = stdout.writer().print("{d}", .{i}) catch 0;
 }
 
 export fn minimbt_print_endline() void {
-    std.debug.print("\n", .{});
+    _ = stdout.write("\n") catch 0;
 }
 
 export fn minimbt_print_char(ch: i32) void {
     const c1: u32 = @intCast(ch);
     const c2: u8 = @truncate(c1);
-    std.debug.print("{c}", .{c2});
+    _ = stdout.writer().print("{c}", .{c2}) catch 0;
 }
 
 export fn minimbt_int_of_float(f: f64) i32 {
