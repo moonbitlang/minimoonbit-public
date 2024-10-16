@@ -83,6 +83,7 @@ get_or_apply_level_expr:
 // Value expressions
 value_expr:
 	unit_expr
+	| group_expr
 	| tuple_expr
 	| bool_expr
 	| identifier_expr
@@ -93,6 +94,7 @@ value_expr:
 	| not_expr
 	| array_make_expr;
 unit_expr: '(' ')'; // ()
+group_expr: '(' expr ')'; // (x)
 tuple_expr:
 	'(' expr (',' expr)+ ')'; // (x, y); 1-tuple is not allowed
 block_expr: '{' stmt '}'; // { blah; blah; }
