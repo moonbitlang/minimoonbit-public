@@ -1,5 +1,5 @@
 fn random(state: Int) -> Int {
-  state * 1103515245 + 12345
+  state * 75 + 74
 };
 
 fn modulo(x: Int, y: Int) -> Int {
@@ -13,8 +13,9 @@ fn fill_buffer(arr: Array[Int], n: Int) -> Unit {
       ()
     } else {
       let new_state = random(state);
-      arr[i] = modulo(new_state, 10000);
-      aux(i + 1, new_state)
+      let res = modulo(new_state, 65537);
+      arr[i] = res;
+      aux(i + 1, res)
     }
   };
   aux(0, 12345)
