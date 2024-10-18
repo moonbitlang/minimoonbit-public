@@ -82,7 +82,7 @@ pub fn Fundef::from_json(json : Json) -> Fundef!Error {
   fn from_json(json : ArrayView[Json]) -> Array[(String, Type)]!Error {
     let array = []
     for i = 0; i < json.length(); i = i + 1 {
-      match json {
+      match json[i] {
         [name, ty] => {
           let name = match name.as_string() {
             Some(name) => name
