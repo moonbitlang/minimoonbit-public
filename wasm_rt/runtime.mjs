@@ -48,33 +48,42 @@ let importObject = {
         return ptr;
     },
     minimbt_create_array: (size, initial) => {
+        if (offset % 4 != 0) {
+            offset = Math.ceil(offset / 4) * 4
+        }
         if (memory.buffer.byteLength < offset + size * 4) {
             memory.grow(1)
         }
-        let view = new Int32Array(memory, offset, size);
+        let view = new Int32Array(memory.buffer, offset, size);
         view.fill(initial)
         let ptr = offset
         offset += size * 4
         return ptr;
     },
     minimbt_create_float_array: (size, initial) => {
+        if (offset % 8 != 0) {
+            offset = Math.ceil(offset / 8) * 8
+        }
         if (memory.buffer.byteLength < offset + size * 8) {
             memory.grow(1)
         }
-        let view = new Float64Array(memory, offset, size);
+        let view = new Float64Array(memory.buffer, offset, size);
         view.fill(initial)
         let ptr = offset
         offset += size * 8
         return ptr;
     },
     minimbt_create_ptr_array: (size, initial) => {
+        if (offset % 4 != 0) {
+            offset = Math.ceil(offset / 4) * 4
+        }
         if (memory.buffer.byteLength < offset + size) {
             memory.grow(1)
         }
-        let view = new Uint32Array(memory, offset, size);
+        let view = new Uint32Array(memory.buffer, offset, size);
         view.fill(initial >>> 0)
         let ptr = offset
-        offset += size
+        offset += size * 4
         return ptr;
     },
     minimbt_int_of_float: (f) => Math.trunc(f),
