@@ -51,7 +51,7 @@ let importObject = {
         if (offset % 4 != 0) {
             offset = Math.ceil(offset / 4) * 4
         }
-        if (memory.buffer.byteLength < offset + size * 4) {
+        while (memory.buffer.byteLength < offset + size * 4) {
             memory.grow(1)
         }
         let view = new Int32Array(memory.buffer, offset, size);
@@ -64,7 +64,7 @@ let importObject = {
         if (offset % 8 != 0) {
             offset = Math.ceil(offset / 8) * 8
         }
-        if (memory.buffer.byteLength < offset + size * 8) {
+        while (memory.buffer.byteLength < offset + size * 8) {
             memory.grow(1)
         }
         let view = new Float64Array(memory.buffer, offset, size);
@@ -77,7 +77,7 @@ let importObject = {
         if (offset % 4 != 0) {
             offset = Math.ceil(offset / 4) * 4
         }
-        if (memory.buffer.byteLength < offset + size) {
+        while (memory.buffer.byteLength < offset + size * 4) {
             memory.grow(1)
         }
         let view = new Uint32Array(memory.buffer, offset, size);
