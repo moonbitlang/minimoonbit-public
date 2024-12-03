@@ -1,4 +1,4 @@
-/// The stage to be run next.
+///| The stage to be run next.
 enum Stages {
   Parse
   Typecheck
@@ -9,6 +9,7 @@ enum Stages {
   Finished
 } derive(Show, Eq, Compare)
 
+///|
 fn Stages::from_string(s : String) -> Stages? {
   match s {
     "parse" => Some(Stages::Parse)
@@ -22,6 +23,7 @@ fn Stages::from_string(s : String) -> Stages? {
   }
 }
 
+///|
 fn Stages::next(self : Stages) -> Stages {
   match self {
     Stages::Parse => Stages::Typecheck
@@ -34,6 +36,7 @@ fn Stages::next(self : Stages) -> Stages {
   }
 }
 
+///|
 struct CompileStatus {
   mut curr_stage : Stages
   end_stage : Stages
@@ -47,6 +50,7 @@ struct CompileStatus {
   mut asm : Array[@riscv.AssemblyFunction]?
 }
 
+///|
 fn CompileStatus::initialize(
   start_stage : Stages,
   end_stage : Stages,
@@ -81,14 +85,13 @@ fn CompileStatus::initialize(
   v
 }
 
-/// Run the next stage of compilation. Returns true if the compilation is finished.
+///| Run the next stage of compilation. Returns true if the compilation is finished.
 fn CompileStatus::step(self : CompileStatus) -> Bool {
   if self.curr_stage >= self.end_stage {
     return true
   }
   match self.curr_stage {
     Parse => {
-      let source_code = self.source_code.unwrap()
       let parsed = @util.die("TODO: parse")
       self.ast = Some(parsed)
     }
@@ -122,6 +125,7 @@ fn CompileStatus::step(self : CompileStatus) -> Bool {
   self.curr_stage >= self.end_stage
 }
 
+///|
 fn CompileStatus::output(self : CompileStatus, json : Bool) -> String {
   if json {
     match self.curr_stage {
@@ -146,8 +150,9 @@ fn CompileStatus::output(self : CompileStatus, json : Bool) -> String {
   }
 }
 
+///|
 fn main {
-  let argv = @env.get_args()
+  let argv = @sys.get_cli_args()
   let mut file = None
   let knf_opt_iters = Ref::new(10)
   let knf_opt_inline_threshold = Ref::new(10)
@@ -225,7 +230,7 @@ fn main {
             let i = @strconv.parse_int?(s)
             match i {
               Ok(i) => knf_opt_iters.val = i
-              Err(e) => @util.die("Invalid number")
+              Err(_e) => @util.die("Invalid number")
             }
           },
         ),
@@ -239,7 +244,7 @@ fn main {
             let i = @strconv.parse_int?(s)
             match i {
               Ok(i) => knf_opt_inline_threshold.val = i
-              Err(e) => @util.die("Invalid number")
+              Err(_e) => @util.die("Invalid number")
             }
           },
         ),
@@ -278,7 +283,7 @@ fn main {
   } else {
     file.unwrap()
   }
-  let contents = @fs.read_to_string(file)
+  let contents = @fs.read_file_to_string?(path=file).unwrap()
 
   // Compilation
   let status = match
@@ -329,7 +334,7 @@ fn main {
     if out_file.val == "-" {
       println(out_string)
     } else {
-      @fs.write_to_string(out_file.val, out_string)
+      @fs.write_string_to_file(path=out_file.val, content=out_string)
     }
   }
 }

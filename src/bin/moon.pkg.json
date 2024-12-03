@@ -1,19 +1,15 @@
 {
   "is-main": true,
   "import": [
-    "lijunchen/unstable_io/env",
+    "moonbitlang/x/sys",
     "Yoorkin/ArgParser",
-    "lijunchen/unstable_io/fs",
-    "moonbitlang/minimbt/parser",
-    "moonbitlang/minimbt/lex",
     {
       "path": "moonbitlang/minimbt",
       "alias": "types"
     },
     "moonbitlang/minimbt/knf",
-    "moonbitlang/minimbt/typing",
     "moonbitlang/minimbt/knf_eval",
-    "lijunchen/unstable_io/io",
+    "moonbitlang/x/fs",
     "moonbitlang/minimbt/closure",
     "moonbitlang/minimbt/riscv",
     "moonbitlang/minimbt/util",

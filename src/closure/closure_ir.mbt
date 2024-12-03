@@ -1,10 +1,14 @@
-pub type Label String derive(Show)
+///|
+pub(all) type Label String derive(Show)
 
+///|
 pub typealias Name = @types.Name
 
+///|
 pub typealias Type = @types.Type
 
-pub enum Expr {
+///|
+pub(all) enum Expr {
   Unit
   Int(Int)
   Double(Double)
@@ -32,12 +36,14 @@ pub enum Expr {
   ExternalArray(Label)
 } derive(Show)
 
-pub struct Closure {
+///|
+pub(all) struct Closure {
   name : Label
   actual_free_vars : Array[Name]
 } derive(Show)
 
-pub struct FuncDef {
+///|
+pub(all) struct FuncDef {
   name : Label
   old_name : Name
   /// true if the function is a closure function, and the closure will be available at `s11` on 
@@ -49,7 +55,8 @@ pub struct FuncDef {
   body : Expr
 } derive(Show)
 
-pub struct Program {
+///|
+pub(all) struct Program {
   fundefs : Array[FuncDef]
   body : Expr
 } derive(Show)

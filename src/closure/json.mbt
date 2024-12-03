@@ -1,3 +1,4 @@
+///|
 pub fn Expr::to_json(self : Expr) -> Json {
   match self {
     Expr::Unit => ["Unit"]
@@ -40,6 +41,7 @@ pub fn Expr::to_json(self : Expr) -> Json {
   }
 }
 
+///|
 pub fn Expr::from_json(json : Json) -> Expr! {
   match json {
     ["Unit"] => Expr::Unit
@@ -126,6 +128,7 @@ pub fn Expr::from_json(json : Json) -> Expr! {
   }
 }
 
+///|
 pub fn LowType::to_json(self : LowType) -> Json {
   match self {
     LowType::Unit => ["Unit"]
@@ -140,6 +143,7 @@ pub fn LowType::to_json(self : LowType) -> Json {
   }
 }
 
+///|
 pub fn LowType::from_json(json : Json) -> LowType! {
   match json {
     ["Unit"] => LowType::Unit
@@ -173,6 +177,7 @@ pub fn LowType::from_json(json : Json) -> LowType! {
   }
 }
 
+///|
 pub fn Closure::to_json(self : Closure) -> Json {
   {
     "name": self.name._.to_json(),
@@ -180,6 +185,7 @@ pub fn Closure::to_json(self : Closure) -> Json {
   }
 }
 
+///|
 pub fn Closure::from_json(json : Json) -> Closure! {
   match json {
     { "name": String(name), "actual_free_vars": Array(actual_free_vars) } => {
@@ -193,6 +199,7 @@ pub fn Closure::from_json(json : Json) -> Closure! {
   }
 }
 
+///|
 pub fn FuncDef::to_json(self : FuncDef) -> Json {
   {
     "name": self.name._.to_json(),
@@ -219,6 +226,7 @@ pub fn FuncDef::to_json(self : FuncDef) -> Json {
   }
 }
 
+///|
 pub fn FuncDef::from_json(json : Json) -> FuncDef! {
   match json {
     {
@@ -261,6 +269,7 @@ pub fn FuncDef::from_json(json : Json) -> FuncDef! {
   }
 }
 
+///|
 pub fn Program::to_json(self : Program) -> Json {
   {
     "fundefs": Array(self.fundefs.map(FuncDef::to_json)),
@@ -268,6 +277,7 @@ pub fn Program::to_json(self : Program) -> Json {
   }
 }
 
+///|
 pub fn Program::from_json(json : Json) -> Program! {
   match json {
     { "fundefs": Array(fundefs), "body": body } => {

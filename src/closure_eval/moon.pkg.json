@@ -4,8 +4,7 @@
             "path": "moonbitlang/minimbt",
             "alias": "types"
         },
-        "moonbitlang/minimbt/closure",
-        "moonbitlang/minimbt/util"
+        "moonbitlang/minimbt/closure"
     ],
     "test-import": [
         "moonbitlang/minimbt/knf",

@@ -25,7 +25,7 @@ RUN wget https://nodejs.org/dist/v22.10.0/node-v22.10.0-linux-x64.tar.xz -O /tmp
 RUN mkdir -p /root/.zig /root/.moon/bin /root/bin
 
 # Install MoonBit toolchain
-RUN curl -fsSL https://cli.moonbitlang.cn/install/unix.sh | bash -s minimoonbit
+RUN curl -fsSL https://cli.moonbitlang.cn/install/unix.sh | bash
 
 # Install zig toolchain
 RUN curl -fsSL https://ziglang.org/download/0.13.0/zig-linux-x86_64-0.13.0.tar.xz | tar -xJf - -C /root/.zig --strip-components 1
@@ -62,8 +62,7 @@ WORKDIR /app
 WORKDIR /tmp
 RUN moon new foo
 WORKDIR /tmp/foo
-# RUN moon add moonbitlang/x
-RUN moon add lijunchen/unstable_io 
+RUN moon add moonbitlang/x
 RUN moon add Yoorkin/ArgParser 
 RUN moon add Yoorkin/trie
 RUN moon check

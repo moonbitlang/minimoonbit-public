@@ -1,28 +1,34 @@
+///|
 struct IndentLogger {
   logger : Logger
   mut indent : Int
   mut line_start : Bool
 }
 
+///|
 pub fn IndentLogger::new(logger : Logger) -> IndentLogger {
   IndentLogger::{ logger, indent: 0, line_start: true }
 }
 
+///|
 fn IndentLogger::print_indent(self : IndentLogger) -> Unit {
   for i = 0; i < self.indent; i = i + 1 {
     self.logger.write_string("  ")
   }
 }
 
+///|
 pub fn IndentLogger::indent(self : IndentLogger) -> Unit {
   self.indent += 1
 }
 
+///|
 pub fn IndentLogger::outdent(self : IndentLogger) -> Unit {
   self.indent -= 1
 }
 
-pub impl Logger for IndentLogger with write_sub_string(
+///|
+pub impl Logger for IndentLogger with write_substring(
   self : IndentLogger,
   s : String,
   start : Int,
@@ -52,6 +58,7 @@ pub impl Logger for IndentLogger with write_sub_string(
   self.logger.write_sub_string(s, start, end - start)
 }
 
+///|
 pub impl Logger for IndentLogger with write_char(self : IndentLogger, c : Char) -> Unit {
   if c == '\n' {
     self.logger.write_char(c)
@@ -65,6 +72,7 @@ pub impl Logger for IndentLogger with write_char(self : IndentLogger, c : Char) 
   }
 }
 
+///|
 pub fn IndentLogger::write_string(self : IndentLogger, s : String) -> Unit {
   Logger::write_sub_string(self, s, 0, s.length())
 }

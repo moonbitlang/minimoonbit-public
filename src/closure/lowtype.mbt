@@ -1,5 +1,5 @@
-/// Low-level types. Main difference between this and Type is that it distinguishes between direct function pointers and closure function pointers.
-pub enum LowType {
+///| Low-level types. Main difference between this and Type is that it distinguishes between direct function pointers and closure function pointers.
+pub(all) enum LowType {
   Unit
   Bool
   Int
@@ -11,6 +11,7 @@ pub enum LowType {
   Ptr
 } derive(Show)
 
+///|
 pub fn LowType::is_ptr_like(self : LowType) -> Bool {
   match self {
     ClosureFn(_) | DirectFn(_) | Tuple(_) | Array(_) | Ptr => true
@@ -18,6 +19,7 @@ pub fn LowType::is_ptr_like(self : LowType) -> Bool {
   }
 }
 
+///|
 pub fn LowType::is_float_like(self : LowType) -> Bool {
   match self {
     Double => true
@@ -25,6 +27,7 @@ pub fn LowType::is_float_like(self : LowType) -> Bool {
   }
 }
 
+///|
 pub fn LowType::size_of(self : LowType, size_of_ptr : Int) -> Int {
   match self {
     Unit => 0

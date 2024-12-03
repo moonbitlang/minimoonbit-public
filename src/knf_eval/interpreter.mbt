@@ -1,13 +1,17 @@
+///|
 struct KnfInterpreter {
   extern_fns : Map[String, (Array[Value]) -> Value]
   mut init_env : InterpreterLocalVars
 }
 
+///|
 pub typealias Name = @types.Name
 
+///|
 pub typealias InterpreterLocalVars = @immut/hashmap.T[Name, Value]
 
-pub enum Value {
+///|
+pub(all) enum Value {
   Unit
   Int(Int)
   Double(Double)
@@ -17,6 +21,7 @@ pub enum Value {
   Closure(@knf.FuncDef, Ref[InterpreterLocalVars])
 } derive(Show)
 
+///|
 pub fn Value::op_equal(self : Value, other : Value) -> Bool {
   match (self, other) {
     (Unit, Unit) => true
@@ -30,10 +35,12 @@ pub fn Value::op_equal(self : Value, other : Value) -> Bool {
   }
 }
 
+///|
 pub fn KnfInterpreter::new() -> KnfInterpreter {
   { extern_fns: Map::new(), init_env: InterpreterLocalVars::new() }
 }
 
+///|
 pub fn KnfInterpreter::add_extern_fn(
   self : KnfInterpreter,
   name : String,
@@ -43,10 +50,12 @@ pub fn KnfInterpreter::add_extern_fn(
   self.init_env = self.init_env.add(Name::name_only(name), ExternFn(name))
 }
 
+///|
 fn find(env : InterpreterLocalVars, name : Name) -> Value!Failure {
   env.find(name).or_error!(Failure("variable not found: \{name}"))
 }
 
+///|
 pub fn KnfInterpreter::eval_full(
   self : KnfInterpreter,
   expr : @knf.Knf
@@ -54,6 +63,7 @@ pub fn KnfInterpreter::eval_full(
   self.eval!(self.init_env, expr)
 }
 
+///|
 pub fn KnfInterpreter::eval(
   self : KnfInterpreter,
   env : InterpreterLocalVars,

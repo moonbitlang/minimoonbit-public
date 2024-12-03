@@ -1,4 +1,5 @@
-pub enum Syntax {
+///|
+pub(all) enum Syntax {
   Unit
   Bool(Bool) // true false
   Int(Int) // int
@@ -7,11 +8,11 @@ pub enum Syntax {
   Tuple(Array[Syntax]) // (_, _, _)
   Not(Syntax) // not(_)
   Array(Syntax, Syntax) // Array::make(_, _)
-  Neg(Syntax, mut ~kind : Kind?) // -_
+  Neg(Syntax, mut kind~ : Kind?) // -_
   App(Syntax, Array[Syntax]) // _(_, _, _) or _()
   Get(Syntax, Syntax) // _[_]
   If(Syntax, Syntax, Syntax) // if _ { _ } else { _ }
-  Prim(Syntax, Syntax, Op, mut ~kind : Kind?) // _+ - * / _
+  Prim(Syntax, Syntax, Op, mut kind~ : Kind?) // _+ - * / _
   Eq(Syntax, Syntax) // _==_
   LE(Syntax, Syntax) // _<=_
   Let((String, Type), Syntax, Syntax) // let _: _ = _; _
@@ -20,25 +21,29 @@ pub enum Syntax {
   Put(Syntax, Syntax, Syntax) // _[_] = _
 } derive(Show)
 
-pub enum Kind {
+///|
+pub(all) enum Kind {
   Int
   Double
 } derive(Show, Eq)
 
-pub enum Op {
+///|
+pub(all) enum Op {
   Add
   Sub
   Mul
   Div
 } derive(Show, Eq)
 
-pub struct Fundef {
+///|
+pub(all) struct Fundef {
   name : (String, Type)
   args : Array[(String, Type)]
   body : Syntax
 } derive(Show)
 
-pub enum Type {
+///|
+pub(all) enum Type {
   Unit
   Bool
   Int
@@ -50,6 +55,7 @@ pub enum Type {
   Ptr
 } derive(Show)
 
+///|
 pub fn Type::is_ptr_like(self : Type) -> Bool {
   match self {
     Fun(_) | Tuple(_) | Array(_) | Ptr => true
@@ -62,6 +68,7 @@ pub fn Type::is_ptr_like(self : Type) -> Bool {
   }
 }
 
+///|
 pub fn Type::is_float_like(self : Type) -> Bool {
   match self {
     Double => true
@@ -74,6 +81,7 @@ pub fn Type::is_float_like(self : Type) -> Bool {
   }
 }
 
+///|
 pub fn Type::size_of(self : Type, size_of_ptr : Int) -> Int {
   match self {
     Unit => 0
@@ -89,6 +97,7 @@ pub fn Type::size_of(self : Type, size_of_ptr : Int) -> Int {
   }
 }
 
+///|
 pub fn Type::op_equal(self : Type, other : Type) -> Bool {
   match (self, other) {
     (Unit, Unit) => true

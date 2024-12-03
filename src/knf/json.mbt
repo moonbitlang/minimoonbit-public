@@ -1,3 +1,4 @@
+///|
 pub fn Knf::to_json(self : Knf) -> Json {
   match self {
     Unit => ["Unit"]
@@ -39,6 +40,7 @@ pub fn Knf::to_json(self : Knf) -> Json {
   }
 }
 
+///|
 pub fn FuncDef::to_json(self : FuncDef) -> Json {
   {
     "name": self.name.to_json(),
@@ -48,6 +50,7 @@ pub fn FuncDef::to_json(self : FuncDef) -> Json {
   }
 }
 
+///|
 pub fn Knf::from_json(json : Json) -> Knf! {
   match json {
     ["Unit"] => Unit
@@ -117,6 +120,7 @@ pub fn Knf::from_json(json : Json) -> Knf! {
   }
 }
 
+///|
 pub fn FuncDef::from_json(json : Json) -> FuncDef! {
   match json {
     { "name": n, "ty": t, "args": Array(args), "body": k } => {
