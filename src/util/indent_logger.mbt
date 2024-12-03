@@ -27,6 +27,7 @@ pub fn IndentLogger::outdent(self : IndentLogger) -> Unit {
   self.indent -= 1
 }
 
+///|
 pub impl Logger for IndentLogger with write_substring(
   self : IndentLogger,
   s : String,
