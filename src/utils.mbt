@@ -1,3 +1,4 @@
+///|
 pub fn to_json(self : Type) -> Json {
   match self {
     Unit => "Unit"
@@ -14,6 +15,7 @@ pub fn to_json(self : Type) -> Json {
   }
 }
 
+///|
 pub fn Type::from_json(self : Json) -> Type!Error {
   fn from(values : ArrayView[Json]) -> Array[Type]!Error {
     let array = []
@@ -66,6 +68,7 @@ test {
   )
 }
 
+///|
 pub fn to_json(self : Fundef) -> Json {
   {
     "name": [self.name.0 |> Json::String, self.name.1.to_json()],
@@ -78,6 +81,7 @@ pub fn to_json(self : Fundef) -> Json {
   }
 }
 
+///|
 pub fn Fundef::from_json(json : Json) -> Fundef!Error {
   fn from_json(json : ArrayView[Json]) -> Array[(String, Type)]!Error {
     let array = []
@@ -121,6 +125,7 @@ pub fn Fundef::from_json(json : Json) -> Fundef!Error {
   }
 }
 
+///|
 pub fn to_json(self : Syntax) -> Json {
   match self {
     Unit => "Unit"
@@ -130,7 +135,7 @@ pub fn to_json(self : Syntax) -> Json {
     Not(e) => ["Not", e.to_json()]
     Neg(e, kind=Some(Double)) => ["FNeg", e.to_json()]
     Neg(e, kind=_) => ["Neg", e.to_json()]
-    Prim(e1, e2, op, ~kind) => {
+    Prim(e1, e2, op, kind~) => {
       let op = if kind == Some(Double) { "F\{op}" } else { "{op}" }
       [op |> Json::String, e1.to_json(), e2.to_json()]
     }
@@ -157,6 +162,7 @@ pub fn to_json(self : Syntax) -> Json {
   }
 }
 
+///|
 pub fn Syntax::from_json(json : Json) -> Syntax! {
   match json {
     "Unit" => Syntax::Unit

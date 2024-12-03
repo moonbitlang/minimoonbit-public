@@ -1,3 +1,4 @@
+///|
 pub fn i32_to_hex(v : Int) -> String {
   let buf = Buffer::new()
   buf.write_string("0x")
@@ -12,6 +13,7 @@ pub fn i32_to_hex(v : Int) -> String {
   buf.to_string()
 }
 
+///|
 pub fn i64_to_hex(v : Int64) -> String {
   let buf = Buffer::new()
   buf.write_string("0x")

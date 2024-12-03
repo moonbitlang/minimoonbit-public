@@ -1,3 +1,4 @@
+///|
 pub fn knf_max_counter(knf : Knf) -> Int {
   match knf {
     Unit => 0

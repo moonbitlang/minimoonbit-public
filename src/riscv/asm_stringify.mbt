@@ -1,3 +1,4 @@
+///|
 pub fn print_functions(asm : Array[AssemblyFunction]) -> String {
   let logger = Buffer::new()
   for f in asm {

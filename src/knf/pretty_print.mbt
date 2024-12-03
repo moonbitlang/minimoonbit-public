@@ -1,11 +1,14 @@
+///|
 struct PrettyKnf {
   knf : Knf
 }
 
+///|
 pub fn Knf::to_pretty_print(self : Knf) -> PrettyKnf {
   { knf: self }
 }
 
+///|
 fn PrettyKnf::print_one_level(
   self : PrettyKnf,
   logger : @util.IndentLogger,
@@ -133,6 +136,7 @@ fn PrettyKnf::print_one_level(
   }
 }
 
+///|
 pub impl Show for PrettyKnf with output(self : PrettyKnf, logger : Logger) -> Unit {
   let indent_logger = @util.IndentLogger::new(logger)
   self.print_one_level(indent_logger, self.knf)

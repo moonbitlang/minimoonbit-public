@@ -1,4 +1,4 @@
-/// The stage to be run next.
+///| The stage to be run next.
 enum Stages {
   Parse
   Typecheck
@@ -9,6 +9,7 @@ enum Stages {
   Finished
 } derive(Show, Eq, Compare)
 
+///|
 fn Stages::from_string(s : String) -> Stages? {
   match s {
     "parse" => Some(Stages::Parse)
@@ -22,6 +23,7 @@ fn Stages::from_string(s : String) -> Stages? {
   }
 }
 
+///|
 fn Stages::next(self : Stages) -> Stages {
   match self {
     Stages::Parse => Stages::Typecheck
@@ -34,6 +36,7 @@ fn Stages::next(self : Stages) -> Stages {
   }
 }
 
+///|
 struct CompileStatus {
   mut curr_stage : Stages
   end_stage : Stages
@@ -47,6 +50,7 @@ struct CompileStatus {
   mut asm : Array[@riscv.AssemblyFunction]?
 }
 
+///|
 fn CompileStatus::initialize(
   start_stage : Stages,
   end_stage : Stages,
@@ -81,7 +85,7 @@ fn CompileStatus::initialize(
   v
 }
 
-/// Run the next stage of compilation. Returns true if the compilation is finished.
+///| Run the next stage of compilation. Returns true if the compilation is finished.
 fn CompileStatus::step(self : CompileStatus) -> Bool {
   if self.curr_stage >= self.end_stage {
     return true
@@ -122,6 +126,7 @@ fn CompileStatus::step(self : CompileStatus) -> Bool {
   self.curr_stage >= self.end_stage
 }
 
+///|
 fn CompileStatus::output(self : CompileStatus, json : Bool) -> String {
   if json {
     match self.curr_stage {
@@ -146,6 +151,7 @@ fn CompileStatus::output(self : CompileStatus, json : Bool) -> String {
   }
 }
 
+///|
 fn main {
   let argv = @env.get_args()
   let mut file = None

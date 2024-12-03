@@ -1,13 +1,17 @@
+///|
 struct ClosureInterpreter {
   extern_fns : Map[String, (Array[Value]) -> Value]
   functions : Map[String, @closure.FuncDef]
 }
 
+///|
 pub typealias Name = @types.Name
 
+///|
 pub typealias InterpreterLocalVars = @immut/hashmap.T[Name, Value]
 
-pub enum Value {
+///|
+pub(all) enum Value {
   Unit
   Int(Int)
   Double(Double)
@@ -17,6 +21,7 @@ pub enum Value {
   Closure(@closure.FuncDef, Array[Value])
 } derive(Show)
 
+///|
 pub fn Value::op_equal(self : Value, other : Value) -> Bool {
   match (self, other) {
     (Unit, Unit) => true
@@ -30,10 +35,12 @@ pub fn Value::op_equal(self : Value, other : Value) -> Bool {
   }
 }
 
+///|
 pub fn ClosureInterpreter::new() -> ClosureInterpreter {
   { extern_fns: Map::new(), functions: Map::new() }
 }
 
+///|
 pub fn ClosureInterpreter::add_extern_fn(
   self : ClosureInterpreter,
   name : String,
@@ -42,10 +49,12 @@ pub fn ClosureInterpreter::add_extern_fn(
   self.extern_fns.set(name, f)
 }
 
+///|
 fn find(env : InterpreterLocalVars, name : Name) -> Value!Failure {
   env.find(name).or_error!(Failure("variable not found: \{name}"))
 }
 
+///|
 pub fn ClosureInterpreter::eval_full(
   self : ClosureInterpreter,
   expr : @closure.Program
@@ -57,6 +66,7 @@ pub fn ClosureInterpreter::eval_full(
   self.eval!(env, expr.body)
 }
 
+///|
 pub fn ClosureInterpreter::eval(
   self : ClosureInterpreter,
   env : InterpreterLocalVars,
@@ -276,6 +286,7 @@ pub fn ClosureInterpreter::eval(
   }
 }
 
+///|
 pub fn ClosureInterpreter::eval_fn(
   self : ClosureInterpreter,
   func : @closure.FuncDef,

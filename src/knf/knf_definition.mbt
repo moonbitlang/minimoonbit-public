@@ -1,8 +1,11 @@
+///|
 pub typealias Name = @types.Name
 
+///|
 pub typealias Type = @types.Type
 
-pub enum Knf {
+///|
+pub(all) enum Knf {
   Unit
   Int(Int)
   Double(Double)
@@ -30,7 +33,8 @@ pub enum Knf {
   ExternalFunctionApplication(String, Array[Name])
 } derive(Show, Eq)
 
-pub struct FuncDef {
+///|
+pub(all) struct FuncDef {
   name : Name
   ty : Type
   args : Array[(Name, Type)]

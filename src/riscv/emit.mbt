@@ -1,15 +1,18 @@
+///|
 pub fn emit(
   input : Unit // TODO
 ) -> Array[AssemblyFunction] {
   abort("todo")
 }
 
-pub struct AssemblyFunction {
+///|
+pub(all) struct AssemblyFunction {
   name : String
   export : Bool
   body : Array[RvAsm]
 }
 
+///|
 pub fn AssemblyFunction::output(
   self : AssemblyFunction,
   logger : Logger
