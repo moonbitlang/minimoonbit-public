@@ -62,8 +62,7 @@ WORKDIR /app
 WORKDIR /tmp
 RUN moon new foo
 WORKDIR /tmp/foo
-# RUN moon add moonbitlang/x
-RUN moon add lijunchen/unstable_io 
+RUN moon add moonbitlang/x
 RUN moon add Yoorkin/ArgParser 
 RUN moon add Yoorkin/trie
 RUN moon check

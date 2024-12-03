@@ -1,6 +1,6 @@
 ///|
 pub fn emit(
-  input : Unit // TODO
+  _input : Unit // TODO
 ) -> Array[AssemblyFunction] {
   abort("todo")
 }

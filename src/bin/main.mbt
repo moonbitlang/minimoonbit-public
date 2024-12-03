@@ -92,7 +92,6 @@ fn CompileStatus::step(self : CompileStatus) -> Bool {
   }
   match self.curr_stage {
     Parse => {
-      let source_code = self.source_code.unwrap()
       let parsed = @util.die("TODO: parse")
       self.ast = Some(parsed)
     }
@@ -153,7 +152,7 @@ fn CompileStatus::output(self : CompileStatus, json : Bool) -> String {
 
 ///|
 fn main {
-  let argv = @env.get_args()
+  let argv = @sys.get_cli_args()
   let mut file = None
   let knf_opt_iters = Ref::new(10)
   let knf_opt_inline_threshold = Ref::new(10)
@@ -231,7 +230,7 @@ fn main {
             let i = @strconv.parse_int?(s)
             match i {
               Ok(i) => knf_opt_iters.val = i
-              Err(e) => @util.die("Invalid number")
+              Err(_e) => @util.die("Invalid number")
             }
           },
         ),
@@ -245,7 +244,7 @@ fn main {
             let i = @strconv.parse_int?(s)
             match i {
               Ok(i) => knf_opt_inline_threshold.val = i
-              Err(e) => @util.die("Invalid number")
+              Err(_e) => @util.die("Invalid number")
             }
           },
         ),
@@ -284,7 +283,7 @@ fn main {
   } else {
     file.unwrap()
   }
-  let contents = @fs.read_to_string(file)
+  let contents = @fs.read_file_to_string?(path = file).unwrap()
 
   // Compilation
   let status = match
@@ -335,7 +334,7 @@ fn main {
     if out_file.val == "-" {
       println(out_string)
     } else {
-      @fs.write_to_string(out_file.val, out_string)
+      @fs.write_string_to_file(path = out_file.val, content = out_string)
     }
   }
 }

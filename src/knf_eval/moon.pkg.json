@@ -4,8 +4,7 @@
         {
             "path": "moonbitlang/minimbt",
             "alias": "types"
-        },
-        "moonbitlang/minimbt/util"
+        }
     ],
     "test-import": [
         "moonbitlang/minimbt/parser",

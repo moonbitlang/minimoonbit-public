@@ -1,7 +1,7 @@
 ///| Preprocesses the syntax tree, extracting the contents of functions `main` and `init` to top-level.
 pub fn KnfEnv::syntax_preprocess(
-  self : KnfEnv,
-  s : @types.Syntax
+  _self : KnfEnv,
+  _s : @types.Syntax
 ) -> @types.Syntax {
   abort("todo")
 }

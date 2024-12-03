@@ -35,6 +35,6 @@ fn KnfEnv::new_named_temp(self : KnfEnv, name : Name) -> Name {
 }
 
 ///|
-pub fn KnfEnv::to_knf(self : KnfEnv, s : @types.Syntax) -> Knf { // !Failure
+pub fn KnfEnv::to_knf(_self : KnfEnv, _s : @types.Syntax) -> Knf { // !Failure
   abort("todo")
 }
