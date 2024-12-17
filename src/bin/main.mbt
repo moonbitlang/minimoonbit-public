@@ -172,27 +172,23 @@ fn main {
       (
         "--start-stage",
         "",
-        @ArgParser.String(
-          fn(s) {
-            match Stages::from_string(s) {
-              Some(stage) => start_stage.val = stage
-              None => @util.die("Invalid stage")
-            }
-          },
-        ),
+        @ArgParser.String(fn(s) {
+          match Stages::from_string(s) {
+            Some(stage) => start_stage.val = stage
+            None => @util.die("Invalid stage")
+          }
+        }),
         "Start stage",
       ),
       (
         "--end-stage",
         "",
-        @ArgParser.String(
-          fn(s) {
-            match Stages::from_string(s) {
-              Some(stage) => end_stage.val = stage
-              None => @util.die("Invalid stage")
-            }
-          },
-        ),
+        @ArgParser.String(fn(s) {
+          match Stages::from_string(s) {
+            Some(stage) => end_stage.val = stage
+            None => @util.die("Invalid stage")
+          }
+        }),
         "End stage",
       ),
       (
@@ -225,29 +221,25 @@ fn main {
       (
         "--knf-opt-iters",
         "N",
-        @ArgParser.String(
-          fn(s) {
-            let i = @strconv.parse_int?(s)
-            match i {
-              Ok(i) => knf_opt_iters.val = i
-              Err(_e) => @util.die("Invalid number")
-            }
-          },
-        ),
+        @ArgParser.String(fn(s) {
+          let i = @strconv.parse_int?(s)
+          match i {
+            Ok(i) => knf_opt_iters.val = i
+            Err(_e) => @util.die("Invalid number")
+          }
+        }),
         "Number of optimization iterations",
       ),
       (
         "--knf-opt-inline-threshold",
         "N",
-        @ArgParser.String(
-          fn(s) {
-            let i = @strconv.parse_int?(s)
-            match i {
-              Ok(i) => knf_opt_inline_threshold.val = i
-              Err(_e) => @util.die("Invalid number")
-            }
-          },
-        ),
+        @ArgParser.String(fn(s) {
+          let i = @strconv.parse_int?(s)
+          match i {
+            Ok(i) => knf_opt_inline_threshold.val = i
+            Err(_e) => @util.die("Invalid number")
+          }
+        }),
         "Inline threshold for KNF optimization",
       ),
     ],
@@ -268,14 +260,12 @@ fn main {
   if closure_interpreter.val {
     end_stage.val = Stages::Closure
   }
-  let stages_to_print = print.val.map(
-    fn(s) {
-      match Stages::from_string(s) {
-        Some(stage) => stage
-        None => @util.die("Invalid stage to print: \{s}")
-      }
-    },
-  )
+  let stages_to_print = print.val.map(fn(s) {
+    match Stages::from_string(s) {
+      Some(stage) => stage
+      None => @util.die("Invalid stage to print: \{s}")
+    }
+  })
 
   // Input
   let file = if file.is_empty() {
