@@ -1,8 +1,6 @@
 package moonbitlang/minimbt/riscv
 
 // Values
-fn asm_stringify(AssemblyFunction) -> String
-
 fn emit(Unit) -> Array[AssemblyFunction]
 
 let freg_allocatable_list : Array[FReg]
@@ -20,6 +18,8 @@ let freg_saved_list : Array[FReg]
 let freg_swap : FReg
 
 let freg_temp_list : Array[FReg]
+
+fn print_functions(Array[AssemblyFunction]) -> String
 
 let reg_allocatable_list : Array[Reg]
 
@@ -42,16 +42,16 @@ let reg_swap : Reg
 let reg_temp_list : Array[Reg]
 
 // Types and methods
-pub struct AssemblyFunction {
-  pub name : String
-  pub export : Bool
-  pub body : Array[RvAsm]
+pub(all) struct AssemblyFunction {
+  name : String
+  export : Bool
+  body : Array[RvAsm]
 }
 impl AssemblyFunction {
-  output(Self, Logger) -> Unit
+  output(Self, &Logger) -> Unit
 }
 
-pub enum FReg {
+pub(all) enum FReg {
   Ft0
   Ft1
   Ft2
@@ -86,25 +86,21 @@ pub enum FReg {
   Ft11
 }
 impl FReg {
-  compare(Self, Self) -> Int
-  hash_combine(Self, Hasher) -> Unit
-  op_equal(Self, Self) -> Bool
   to_string(Self) -> String
 }
+impl Compare for FReg
+impl Eq for FReg
+impl Hash for FReg
 
 type Label
-impl Label {
-  hash_combine(Self, Hasher) -> Unit
-  op_equal(Self, Self) -> Bool
-  to_string(Self) -> String
-}
+impl Eq for Label
+impl Hash for Label
+impl Show for Label
 
 type MemAccess
-impl MemAccess {
-  to_string[TBase : Show, TOff : Show](Self[TBase, TOff]) -> String
-}
+impl[TBase : Show, TOff : Show] Show for MemAccess[TBase, TOff]
 
-pub enum Reg {
+pub(all) enum Reg {
   Zero
   Ra
   Sp
@@ -139,13 +135,13 @@ pub enum Reg {
   T6
 }
 impl Reg {
-  compare(Self, Self) -> Int
-  hash_combine(Self, Hasher) -> Unit
-  op_equal(Self, Self) -> Bool
   to_string(Self) -> String
 }
+impl Compare for Reg
+impl Eq for Reg
+impl Hash for Reg
 
-pub enum RvAsm {
+pub(all) enum RvAsm {
   Add(Reg, Reg, Reg)
   Sub(Reg, Reg, Reg)
   Xor(Reg, Reg, Reg)
@@ -202,8 +198,8 @@ pub enum RvAsm {
   FdivD(FReg, FReg, FReg)
   Fld(FReg, MemAccess[Reg, Int])
   Fsd(FReg, MemAccess[Reg, Int])
-  FbeqD(FReg, FReg, Label)
-  FbleD(FReg, FReg, Label)
+  FeqD(Reg, FReg, FReg)
+  FleD(Reg, FReg, FReg)
   FmvDX(FReg, Reg)
   Nop
   La(Reg, Label)
@@ -225,9 +221,4 @@ pub enum RvAsm {
 // Type aliases
 
 // Traits
-
-// Extension Methods
-impl Show for Label
-
-impl Show for MemAccess
 

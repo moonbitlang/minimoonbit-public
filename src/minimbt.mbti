@@ -3,52 +3,57 @@ package moonbitlang/minimbt
 // Values
 
 // Types and methods
-pub struct Fundef {
-  pub name : Tuple[String, Type]
-  pub args : Array[Tuple[String, Type]]
-  pub body : Syntax
+pub(all) struct Fundef {
+  name : (String, Type)
+  args : Array[(String, Type)]
+  body : Syntax
 }
 impl Fundef {
   from_json(Json) -> Self!
   to_json(Self) -> Json
-  to_string(Self) -> String
 }
+impl Show for Fundef
 
-pub enum Kind {
+pub(all) enum Kind {
   Int
   Double
 }
-impl Kind {
-  op_equal(Self, Self) -> Bool
-  to_string(Self) -> String
-}
+impl Eq for Kind
+impl Show for Kind
 
-pub struct Name {
-  pub name : String?
-  pub slot : Int
+pub(all) struct Name {
+  name : String?
+  slot : Int
 }
 impl Name {
-  compare(Self, Self) -> Int
-  hash_combine(Self, Hasher) -> Unit
+  from_json(Json) -> Self!
+  from_string(String) -> Self!NameFromStringError
   name_and_slot(String, Int) -> Self
   name_only(String) -> Self
-  op_equal(Self, Self) -> Bool
   slot_only(Int) -> Self
+  to_json(Self) -> Json
   to_string(Self) -> String
 }
+impl Compare for Name
+impl Eq for Name
+impl Hash for Name
+impl Show for Name
 
-pub enum Op {
+pub(all) type! NameFromStringError {
+  InvalidSlotNumber(String, String)
+}
+impl Show for NameFromStringError
+
+pub(all) enum Op {
   Add
   Sub
   Mul
   Div
 }
-impl Op {
-  op_equal(Self, Self) -> Bool
-  to_string(Self) -> String
-}
+impl Eq for Op
+impl Show for Op
 
-pub enum Syntax {
+pub(all) enum Syntax {
   Unit
   Bool(Bool)
   Int(Int)
@@ -64,18 +69,18 @@ pub enum Syntax {
   Prim(Syntax, Syntax, Op, Kind?)
   Eq(Syntax, Syntax)
   LE(Syntax, Syntax)
-  Let(Tuple[String, Type], Syntax, Syntax)
+  Let((String, Type), Syntax, Syntax)
   LetRec(Fundef, Syntax)
-  LetTuple(Array[Tuple[String, Type]], Syntax, Syntax)
+  LetTuple(Array[(String, Type)], Syntax, Syntax)
   Put(Syntax, Syntax, Syntax)
 }
 impl Syntax {
   from_json(Json) -> Self!
   to_json(Self) -> Json
-  to_string(Self) -> String
 }
+impl Show for Syntax
 
-pub enum Type {
+pub(all) enum Type {
   Unit
   Bool
   Int
@@ -93,23 +98,10 @@ impl Type {
   op_equal(Self, Self) -> Bool
   size_of(Self, Int) -> Int
   to_json(Self) -> Json
-  to_string(Self) -> String
 }
+impl Show for Type
 
 // Type aliases
 
 // Traits
-
-// Extension Methods
-impl Show for Fundef
-
-impl Show for Kind
-
-impl Show for Name
-
-impl Show for Op
-
-impl Show for Syntax
-
-impl Show for Type
 
