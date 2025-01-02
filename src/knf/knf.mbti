@@ -4,20 +4,23 @@ alias @moonbitlang/core/immut/hashmap as @hashmap
 alias @moonbitlang/minimbt as @minimbt
 
 // Values
+fn knf_max_counter(Knf) -> Int
 
 // Types and methods
-pub struct FuncDef {
-  pub name : @minimbt.Name
-  pub ty : @minimbt.Type
-  pub args : Array[Tuple[@minimbt.Name, @minimbt.Type]]
-  pub body : Knf
+pub(all) struct FuncDef {
+  name : @minimbt.Name
+  ty : @minimbt.Type
+  args : Array[(@minimbt.Name, @minimbt.Type)]
+  body : Knf
 }
 impl FuncDef {
-  op_equal(Self, Self) -> Bool
-  to_string(Self) -> String
+  from_json(Json) -> Self!
+  to_json(Self) -> Json
 }
+impl Eq for FuncDef
+impl Show for FuncDef
 
-pub enum Knf {
+pub(all) enum Knf {
   Unit
   Int(Int)
   Double(Double)
@@ -33,25 +36,28 @@ pub enum Knf {
   FDiv(@minimbt.Name, @minimbt.Name)
   IfEq(@minimbt.Name, @minimbt.Name, Knf, Knf)
   IfLe(@minimbt.Name, @minimbt.Name, Knf, Knf)
-  Let(Tuple[@minimbt.Name, @minimbt.Type], Knf, Knf)
+  Let((@minimbt.Name, @minimbt.Type), Knf, Knf)
   Var(@minimbt.Name)
   LetRec(FuncDef, Knf)
   Apply(@minimbt.Name, Array[@minimbt.Name])
   Tuple(Array[@minimbt.Name])
-  LetTuple(Array[Tuple[@minimbt.Name, @minimbt.Type]], @minimbt.Name, Knf)
+  LetTuple(Array[(@minimbt.Name, @minimbt.Type)], @minimbt.Name, Knf)
   Get(@minimbt.Name, @minimbt.Name)
   Put(@minimbt.Name, @minimbt.Name, @minimbt.Name)
   ExternalArray(@minimbt.Name)
   ExternalFunctionApplication(String, Array[@minimbt.Name])
 }
 impl Knf {
-  op_equal(Self, Self) -> Bool
+  from_json(Json) -> Self!
+  to_json(Self) -> Json
   to_pretty_print(Self) -> PrettyKnf
-  to_string(Self) -> String
 }
+impl Eq for Knf
+impl Show for Knf
 
 type KnfEnv
 impl KnfEnv {
+  init_counter_from_existing(Self, Knf) -> Unit
   new(@hashmap.T[String, @minimbt.Type]) -> Self
   opt_pass(Self, Knf) -> Knf
   syntax_preprocess(Self, @minimbt.Syntax) -> @minimbt.Syntax
@@ -59,6 +65,7 @@ impl KnfEnv {
 }
 
 type PrettyKnf
+impl Show for PrettyKnf
 
 // Type aliases
 pub typealias LocalEnv = @hashmap.T[String, @minimbt.Type]
@@ -68,11 +75,4 @@ pub typealias Name = @minimbt.Name
 pub typealias Type = @minimbt.Type
 
 // Traits
-
-// Extension Methods
-impl Show for FuncDef
-
-impl Show for Knf
-
-impl Show for PrettyKnf
 

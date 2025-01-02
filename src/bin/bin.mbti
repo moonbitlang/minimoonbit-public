@@ -3,10 +3,14 @@ package moonbitlang/minimbt/bin
 // Values
 
 // Types and methods
+type CompileStatus
+
+type Stages
+impl Compare for Stages
+impl Eq for Stages
+impl Show for Stages
 
 // Type aliases
 
 // Traits
-
-// Extension Methods
 

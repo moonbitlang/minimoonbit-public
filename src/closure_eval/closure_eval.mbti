@@ -1,17 +1,18 @@
-package moonbitlang/minimbt/knf_eval
+package moonbitlang/minimbt/closure_eval
 
 alias @moonbitlang/core/immut/hashmap as @hashmap
 alias @moonbitlang/minimbt as @minimbt
-alias @moonbitlang/minimbt/knf as @knf
+alias @moonbitlang/minimbt/closure as @closure
 
 // Values
 
 // Types and methods
-type KnfInterpreter
-impl KnfInterpreter {
+type ClosureInterpreter
+impl ClosureInterpreter {
   add_extern_fn(Self, String, (Array[Value]) -> Value) -> Unit
-  eval(Self, @hashmap.T[@minimbt.Name, Value], @knf.Knf) -> Value!Failure
-  eval_full(Self, @knf.Knf) -> Value!Failure
+  eval(Self, @hashmap.T[@minimbt.Name, Value], @closure.Expr) -> Value!Failure
+  eval_fn(Self, @closure.FuncDef, Array[Value], Array[Value]) -> Value!Failure
+  eval_full(Self, @closure.Program) -> Value!Failure
   new() -> Self
 }
 
@@ -22,7 +23,7 @@ pub(all) enum Value {
   Tuple(Array[Value])
   Array(Array[Value])
   ExternFn(String)
-  Closure(@knf.FuncDef, Ref[@hashmap.T[@minimbt.Name, Value]])
+  Closure(@closure.FuncDef, Array[Value])
 }
 impl Value {
   op_equal(Self, Self) -> Bool

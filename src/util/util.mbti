@@ -11,15 +11,13 @@ fn i64_to_hex(Int64) -> String
 type IndentLogger
 impl IndentLogger {
   indent(Self) -> Unit
-  new(Logger) -> Self
+  new(&Logger) -> Self
   outdent(Self) -> Unit
   write_string(Self, String) -> Unit
 }
+impl Logger for IndentLogger
 
 // Type aliases
 
 // Traits
-
-// Extension Methods
-impl Logger for IndentLogger
 
