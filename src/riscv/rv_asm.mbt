@@ -88,7 +88,7 @@ pub(all) enum RvAsm {
 
 ///|
 fn write3[TReg1 : Show, TReg2 : Show, TReg3 : Show](
-  logger : Logger,
+  logger : &Logger,
   op : String,
   rd : TReg1,
   rs1 : TReg2,
@@ -105,7 +105,7 @@ fn write3[TReg1 : Show, TReg2 : Show, TReg3 : Show](
 
 ///|
 fn write2imm[TReg : Show](
-  logger : Logger,
+  logger : &Logger,
   op : String,
   rd : TReg,
   rs1 : TReg,
@@ -122,7 +122,7 @@ fn write2imm[TReg : Show](
 
 ///|
 fn write2label[TReg : Show](
-  logger : Logger,
+  logger : &Logger,
   op : String,
   rs1 : TReg,
   rs2 : TReg,
@@ -139,7 +139,7 @@ fn write2label[TReg : Show](
 
 ///|
 fn write2mem[TReg1 : Show, TReg2 : Show](
-  logger : Logger,
+  logger : &Logger,
   op : String,
   rd : TReg1,
   mem : MemAccess[TReg2, Int]
@@ -156,7 +156,7 @@ fn write2mem[TReg1 : Show, TReg2 : Show](
 
 ///|
 fn write2[TReg1 : Show, TReg2 : Show](
-  logger : Logger,
+  logger : &Logger,
   op : String,
   rd : TReg1,
   rs1 : TReg2

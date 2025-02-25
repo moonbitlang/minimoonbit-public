@@ -1,12 +1,12 @@
 ///|
 struct IndentLogger {
-  logger : Logger
+  logger : &Logger
   mut indent : Int
   mut line_start : Bool
 }
 
 ///|
-pub fn IndentLogger::new(logger : Logger) -> IndentLogger {
+pub fn IndentLogger::new(logger : &Logger) -> IndentLogger {
   IndentLogger::{ logger, indent: 0, line_start: true }
 }
 

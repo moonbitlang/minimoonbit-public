@@ -15,7 +15,7 @@ pub(all) struct AssemblyFunction {
 ///|
 pub fn AssemblyFunction::output(
   self : AssemblyFunction,
-  logger : Logger
+  logger : &Logger
 ) -> Unit {
   let name = self.name
   if self.export {

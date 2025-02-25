@@ -30,9 +30,9 @@ pub fn Type::from_json(self : Json) -> Type!Error {
     "Bool" => Bool
     "Int" => Int
     "Float" => Double
-    ["Fun", [.. as params], result] =>
+    ["Fun", [.. params], result] =>
       Fun(from!(params), result |> Type::from_json!())
-    ["Tuple", [.. as types]] => Tuple(from!(types))
+    ["Tuple", [.. types]] => Tuple(from!(types))
     ["Array", t] => Array(t |> Type::from_json!())
     ["Var", "None"] => Var({ val: None })
     ["Var", ["Some", t]] => Var({ val: Some(t |> Type::from_json!()) })
@@ -41,6 +41,7 @@ pub fn Type::from_json(self : Json) -> Type!Error {
   }
 }
 
+///|
 test {
   inspect!(Type::from_json?(Type::Unit.to_json()), content="Ok(Unit)")
   inspect!(Type::from_json?(Type::Bool.to_json()), content="Ok(Bool)")
@@ -108,7 +109,7 @@ pub fn Fundef::from_json(json : Json) -> Fundef!Error {
   }
 
   match json {
-    { "name": [name, ty], "args": [.. as args], "body": body } => {
+    { "name": [name, ty], "args": [.. args], "body": body } => {
       let name = match name.as_string() {
         Some(name) => name
         None => fail!("invalid field name: should contain a string and a type")
@@ -269,7 +270,7 @@ pub fn Syntax::from_json(json : Json) -> Syntax! {
       }
     ["LetRec", funcdef, e] =>
       LetRec(funcdef |> Fundef::from_json!(), e |> Syntax::from_json!())
-    ["App", e, [.. as es]] => {
+    ["App", e, [.. es]] => {
       fn from_json(values : ArrayView[Json]) -> Array[Syntax]! {
         let array = []
         for i = 0; i < values.length(); i = i + 1 {
@@ -280,7 +281,7 @@ pub fn Syntax::from_json(json : Json) -> Syntax! {
 
       App(e |> Syntax::from_json!(), from_json!(es))
     }
-    ["Tuple", [.. as es]] => {
+    ["Tuple", [.. es]] => {
       fn from_json(values : ArrayView[Json]) -> Array[Syntax]! {
         let array = []
         for i = 0; i < values.length(); i = i + 1 {
@@ -291,7 +292,7 @@ pub fn Syntax::from_json(json : Json) -> Syntax! {
 
       Tuple(from_json!(es))
     }
-    ["LetTuple", [.. as def], value, body] => {
+    ["LetTuple", [.. def], value, body] => {
       fn from_json(values : ArrayView[Json]) -> Array[(String, Type)]! {
         let array = []
         for i = 0; i < values.length(); i = i + 1 {
@@ -336,6 +337,7 @@ pub fn Syntax::from_json(json : Json) -> Syntax! {
   }
 }
 
+///|
 test {
   inspect!(
     Syntax::App(Syntax::Var("f"), []).to_json().stringify(),
@@ -389,6 +391,7 @@ test {
   )
 }
 
+///|
 test {
   inspect!(Syntax::from_json!("Unit"), content="Unit")
   inspect!(Syntax::from_json!(["Bool", true]), content="Bool(true)")

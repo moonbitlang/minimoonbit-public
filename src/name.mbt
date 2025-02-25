@@ -5,7 +5,7 @@ pub(all) struct Name {
 } derive(Eq, Hash, Compare)
 
 ///|
-pub impl Show for Name with output(self : Name, logger : Logger) -> Unit {
+pub impl Show for Name with output(self : Name, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }
 
@@ -27,7 +27,7 @@ pub(all) type! NameFromStringError {
 ///|
 pub impl Show for NameFromStringError with output(
   self : NameFromStringError,
-  logger : Logger
+  logger : &Logger
 ) -> Unit {
   match self {
     NameFromStringError::InvalidSlotNumber(e, slot_s) =>

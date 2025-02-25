@@ -126,7 +126,7 @@ pub fn Reg::to_string(self : Reg) -> String {
 }
 
 ///|
-impl Show for Reg with output(self, logger : Logger) {
+impl Show for Reg with output(self, logger : &Logger) {
   logger.write_string(self.to_string())
 }
 
@@ -255,6 +255,6 @@ pub fn FReg::to_string(self : FReg) -> String {
 }
 
 ///|
-impl Show for FReg with output(self, logger : Logger) {
+impl Show for FReg with output(self, logger : &Logger) {
   logger.write_string(self.to_string())
 }
