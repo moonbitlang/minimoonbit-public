@@ -83,7 +83,7 @@ pub fn Name::slot_only(slot : Int) -> Name {
 }
 
 ///|
-pub fn Name::to_json(self : Name) -> Json {
+pub impl ToJson for Name with to_json(self : Name) -> Json {
   self.to_string().to_json()
 }
 

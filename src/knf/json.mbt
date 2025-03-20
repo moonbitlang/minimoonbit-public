@@ -123,7 +123,7 @@ pub fn Knf::from_json(json : Json) -> Knf! {
 ///|
 pub fn FuncDef::from_json(json : Json) -> FuncDef! {
   match json {
-    { "name": n, "ty": t, "args": Array(args), "body": k } => {
+    { "name": n, "ty": t, "args": Array(args), "body": k, .. } => {
       let rargs = []
       for it in args {
         match it {

@@ -1,5 +1,5 @@
 ///|
-pub fn to_json(self : Type) -> Json {
+pub impl ToJson for Type with to_json(self : Type) -> Json {
   match self {
     Unit => "Unit"
     Bool => "Bool"
@@ -70,7 +70,7 @@ test {
 }
 
 ///|
-pub fn to_json(self : Fundef) -> Json {
+pub fn Fundef::to_json(self : Fundef) -> Json {
   {
     "name": [self.name.0 |> Json::String, self.name.1.to_json()],
     "args": [
@@ -109,7 +109,7 @@ pub fn Fundef::from_json(json : Json) -> Fundef!Error {
   }
 
   match json {
-    { "name": [name, ty], "args": [.. args], "body": body } => {
+    { "name": [name, ty], "args": [.. args], "body": body, .. } => {
       let name = match name.as_string() {
         Some(name) => name
         None => fail!("invalid field name: should contain a string and a type")
@@ -127,7 +127,7 @@ pub fn Fundef::from_json(json : Json) -> Fundef!Error {
 }
 
 ///|
-pub fn to_json(self : Syntax) -> Json {
+pub fn Syntax::to_json(self : Syntax) -> Json {
   match self {
     Unit => "Unit"
     Bool(b) => ["Bool", if b { true } else { false }]

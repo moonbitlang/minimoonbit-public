@@ -129,7 +129,7 @@ pub fn Expr::from_json(json : Json) -> Expr! {
 }
 
 ///|
-pub fn LowType::to_json(self : LowType) -> Json {
+pub impl ToJson for LowType with to_json(self : LowType) -> Json {
   match self {
     LowType::Unit => ["Unit"]
     LowType::Bool => ["Bool"]
@@ -188,7 +188,7 @@ pub fn Closure::to_json(self : Closure) -> Json {
 ///|
 pub fn Closure::from_json(json : Json) -> Closure! {
   match json {
-    { "name": String(name), "actual_free_vars": Array(actual_free_vars) } => {
+    { "name": String(name), "actual_free_vars": Array(actual_free_vars), .. } => {
       let actual_free_vars_res = []
       for n in actual_free_vars {
         actual_free_vars_res.push(Name::from_json!(n))
@@ -237,6 +237,7 @@ pub fn FuncDef::from_json(json : Json) -> FuncDef! {
       "args": Array(args),
       "formal_free_vars": Array(formal_free_vars),
       "body": body,
+      ..
     } => {
       let args_res = []
       for nt in args {
@@ -280,7 +281,7 @@ pub fn Program::to_json(self : Program) -> Json {
 ///|
 pub fn Program::from_json(json : Json) -> Program! {
   match json {
-    { "fundefs": Array(fundefs), "body": body } => {
+    { "fundefs": Array(fundefs), "body": body, .. } => {
       let fundefs_res = []
       for f in fundefs {
         fundefs_res.push(FuncDef::from_json!(f))

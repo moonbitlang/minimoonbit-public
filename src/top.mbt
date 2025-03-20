@@ -98,7 +98,7 @@ pub fn Type::size_of(self : Type, size_of_ptr : Int) -> Int {
 }
 
 ///|
-pub fn Type::op_equal(self : Type, other : Type) -> Bool {
+pub impl Eq for Type with op_equal(self : Type, other : Type) -> Bool {
   match (self, other) {
     (Unit, Unit) => true
     (Bool, Bool) => true
