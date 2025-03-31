@@ -5,5 +5,5 @@ pub fn print_functions(asm : Array[AssemblyFunction]) -> String {
     f.output(logger)
     logger.write_string("\n")
   }
-  logger.to_unchecked_string()
+  logger.contents().to_unchecked_string()
 }
