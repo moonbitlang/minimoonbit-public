@@ -62,7 +62,7 @@ pub fn ClosureInterpreter::eval_full(
   for f in expr.fundefs {
     self.functions.set(f.name._, f)
   }
-  let env = InterpreterLocalVars::new()
+  let env = @immut/hashmap.new()
   self.eval!(env, expr.body)
 }
 
@@ -293,7 +293,7 @@ pub fn ClosureInterpreter::eval_fn(
   args : Array[Value],
   fv : Array[Value]
 ) -> Value!Failure {
-  let mut env = InterpreterLocalVars::new()
+  let mut env = @immut/hashmap.new()
   for i = 0; i < func.args.length(); i = i + 1 {
     let (x, _) = func.args[i]
     env = env.add(x, args[i])

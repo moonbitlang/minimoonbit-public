@@ -37,7 +37,7 @@ pub impl Eq for Value with op_equal(self : Value, other : Value) -> Bool {
 
 ///|
 pub fn KnfInterpreter::new() -> KnfInterpreter {
-  { extern_fns: Map::new(), init_env: InterpreterLocalVars::new() }
+  { extern_fns: Map::new(), init_env: @immut/hashmap.new() }
 }
 
 ///|
