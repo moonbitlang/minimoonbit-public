@@ -10,7 +10,7 @@ enum Stages {
 } derive(Show, Eq, Compare)
 
 ///|
-fn Stages::from_string(s : String) -> Stages? {
+fn Stages::from_string(s : @string.View) -> Stages? {
   match s {
     "parse" => Some(Stages::Parse)
     "typecheck" => Some(Stages::Typecheck)
