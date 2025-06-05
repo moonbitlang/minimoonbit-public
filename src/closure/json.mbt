@@ -212,7 +212,7 @@ pub fn FuncDef::to_json(self : FuncDef) -> Json {
         let (n, t) = nt
         res.push(Json::Array([n.to_json(), t.to_json()]))
       }
-      Array(res)
+      Json::Array(res)
     },
     "formal_free_vars": {
       let res = []
@@ -220,7 +220,7 @@ pub fn FuncDef::to_json(self : FuncDef) -> Json {
         let (n, t) = nt
         res.push(Json::Array([n.to_json(), t.to_json()]))
       }
-      Array(res)
+      Json::Array(res)
     },
     "body": self.body.to_json(),
   }
@@ -273,7 +273,7 @@ pub fn FuncDef::from_json(json : Json) -> FuncDef! {
 ///|
 pub fn Program::to_json(self : Program) -> Json {
   {
-    "fundefs": Array(self.fundefs.map(FuncDef::to_json)),
+    "fundefs": Json::Array(self.fundefs.map(FuncDef::to_json)),
     "body": self.body.to_json(),
   }
 }
